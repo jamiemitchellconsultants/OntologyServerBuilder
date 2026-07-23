@@ -38,3 +38,9 @@ prompts teach how to turn review findings and product feedback into governed fol
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
 workflow must exist on the default branch before it can capture subsequent decisions.
+
+> **Built Project Narrative yourself?** If you completed
+> [NarrativeBuilder](https://github.com/jamiemitchellconsultants/NarrativeBuilder), Prompt 2 lets
+> you use the compatible Narrative repository you built instead of the reference
+> `jamiemitchellconsultants/Narrative` repository. Later prompts continue using whichever Narrative
+> implementation you installed in Prompt 2.
