@@ -3,6 +3,12 @@
 A staged prompt sequence for building and maturing a governed, general-purpose ontology MCP server
 with a coding agent. Finance is the first reference domain, not a restriction on the service.
 
+## New to GitHub or coding agents?
+
+Start with [Start here: set up your repository and coding agent](START-HERE.md). It walks through
+creating `MyOntologyServer`, cloning it locally, choosing one coding agent, connecting that agent to
+the correct repository, and understanding the difference between local and cloud work.
+
 ## How to use the prompts
 
 Use the same coding-agent task throughout when possible. Submit the reusable contract first, then
