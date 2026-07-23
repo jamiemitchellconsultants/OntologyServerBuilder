@@ -3,8 +3,20 @@
 Using the previously supplied repository contract, implement Stage 2: install Project Narrative
 before the remaining product and architecture work begins.
 
-Read the current consumer setup contract in `jamiemitchellconsultants/Narrative` before editing. Do
-not reconstruct the integration from memory. Record the upstream ref or commit you reviewed.
+## Choose the Narrative repository
+
+The reference implementation is `jamiemitchellconsultants/Narrative`.
+
+> **Using a Narrative you built yourself?** If you completed
+> [NarrativeBuilder](https://github.com/jamiemitchellconsultants/NarrativeBuilder), you may select
+> the compatible Narrative repository you built instead. Substitute its `OWNER/REPOSITORY` for
+> `jamiemitchellconsultants/Narrative` throughout this prompt. Do not substitute the
+> `NarrativeBuilder` repository itself.
+
+Read the current consumer setup contract in the selected Narrative repository before editing. Do
+not reconstruct the integration from memory. Confirm that its action and CLI support the contract
+required below, and record the repository and ref or commit you reviewed. If no compatible
+learner-built repository is available, use the reference implementation.
 
 Project Narrative is a deterministic, review-first decision-history mechanism, not an automated
 changelog. It must never invent rationale from code or diffs.
@@ -26,7 +38,7 @@ The maintenance workflow must:
 - run when a pull request closes;
 - continue only when the pull request was merged;
 - use `contents: write` and `pull-requests: write`;
-- invoke `jamiemitchellconsultants/Narrative` with the repository `GITHUB_TOKEN`;
+- invoke the selected Narrative repository with the repository `GITHUB_TOKEN`;
 - require the exact `narrative-required` label;
 - let the upstream action create a separate draft proposal rather than write accepted history
   directly to the default branch.
@@ -37,9 +49,10 @@ The validation workflow must:
 - use read-only repository permissions;
 - run the upstream action in `check` mode.
 
-Choose deliberately between tracking `jamiemitchellconsultants/Narrative@main` and pinning a
+Choose deliberately between tracking the selected Narrative action at `@main` and pinning a
 reviewed commit SHA. `@main` receives processor updates immediately; a SHA gives tighter
-supply-chain control but requires deliberate upgrades. Document the choice.
+supply-chain control but requires deliberate upgrades. Use the same selected repository
+consistently and document the choice.
 
 ## Add the authoring contract
 
