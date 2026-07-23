@@ -30,6 +30,9 @@ submit each implementation stage only after the previous stage has passed its ac
 14. [Add canonical coding-agent instructions](prompts/13-canonical-agent-instructions.md)
 15. [Create the Step 2 security-test guide](prompts/14-create-step2-security-test-guide.md)
 16. [Position the service as general purpose](prompts/15-general-purpose-positioning.md)
+17. [Register a real invoice system](prompts/16-register-real-invoice-system.md)
+18. [Add governed entity-mapping instructions](prompts/17-governed-mapping-instructions.md)
+19. [Add user refinement and system-registration proposals](prompts/18-user-refinement-and-registration-proposals.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -38,6 +41,12 @@ prompts teach how to turn review findings and product feedback into governed fol
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
 workflow must exist on the default branch before it can capture subsequent decisions.
+
+> **Remember the second pull request.** A decision-bearing implementation is not finished when its
+> labelled pull request merges. Project Narrative automation then opens a separate draft proposal
+> containing the new fragment and regenerated `Narrative.md`. Review and merge that proposal
+> separately. Do not add `narrative-required` to the Narrative-only pull request, or it would create
+> a recursive entry.
 
 > **Built Project Narrative yourself?** If you completed
 > [NarrativeBuilder](https://github.com/jamiemitchellconsultants/NarrativeBuilder), Prompt 2 lets
