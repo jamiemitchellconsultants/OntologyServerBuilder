@@ -9,14 +9,35 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 
 | # | Date | Title | Kind | Decision summary |
 |---|---|---|---|---|
-| [1](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
-| [2](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
+| [1](#entry-add-a-beginner-coding-agent-starter-guide) | 2026-07-23 | Add a beginner coding-agent starter guide | product | Add a standalone beginner guide before the numbered implementation prompts. |
+| [2](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
+| [3](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
+
+---
+
+<a id="entry-add-a-beginner-coding-agent-starter-guide"></a>
+
+## Entry 1 — 2026-07-23 — Add a beginner coding-agent starter guide
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+The learning sequence previously began by assuming that a learner already had a GitHub repository and knew how to connect a coding agent to it. Junior developers who are unfamiliar with AI coding tools could therefore be blocked before reaching the first teaching prompt, or could accidentally open the prompt repository instead of the repository they are meant to build. The onboarding material also needed to distinguish local agents from cloud agents without making editor extensions another prerequisite.
+
+## Decision
+
+Add a standalone beginner guide before the numbered implementation prompts. The guide starts by creating a private `MyOntologyServer` repository, recommends cloning it with GitHub Desktop and using one local desktop agent first, and provides concrete setup routes for Codex and Claude Code. GitHub Copilot's cloud agent is included as the principal cloud alternative. A read-only verification prompt confirms that the selected agent is attached to the correct repository before implementation begins. VS Code integrations remain an optional appendix for learners who already use the editor.
+
+## Consequences
+
+New learners gain a complete path from an empty GitHub account context to the first implementation prompt, while the numbered ontology-building sequence stays focused on engineering concepts. Recommending one local route first makes branches, working-tree changes, commits, and pushes visible, but learners can still choose a cloud workflow. Product interfaces and plan availability can change, so the guide links to official provider documentation and will require occasional maintenance. Covering multiple providers adds some documentation breadth, but avoids presenting a single commercial agent as mandatory.
 
 ---
 
 <a id="entry-adopt-project-narrative"></a>
 
-## Entry 1 — 2026-07-23 — Adopt Project Narrative
+## Entry 2 — 2026-07-23 — Adopt Project Narrative
 
 *Kind: governance. Status: accepted.*
 
@@ -58,7 +79,7 @@ directly.
 
 <a id="entry-extend-the-ontology-server-learning-sequence"></a>
 
-## Entry 2 — 2026-07-23 — Extend the ontology server learning sequence
+## Entry 3 — 2026-07-23 — Extend the ontology server learning sequence
 
 *Kind: product. Status: accepted.*
 
