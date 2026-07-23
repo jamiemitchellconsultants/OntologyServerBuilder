@@ -1,6 +1,6 @@
-# Prompt 5 — In-process graph queries and MCP
+# Prompt 6 — In-process graph queries and MCP
 
-Using the previously supplied repository contract, implement Stage 5: runtime graph access,
+Using the previously supplied repository contract, implement Stage 6: runtime graph access,
 constrained SPARQL, and MCP delivery.
 
 Create an in-memory ontology store that:

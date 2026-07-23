@@ -1,6 +1,6 @@
-# Prompt 3 — Governed semantic matching and compilation
+# Prompt 4 — Governed semantic matching and compilation
 
-Using the previously supplied repository contract, implement Stage 3: semantic matching, review
+Using the previously supplied repository contract, implement Stage 4: semantic matching, review
 governance, and deterministic compilation.
 
 Build an explainable deterministic matcher between source entities and canonical concepts.

@@ -1,4 +1,4 @@
-# Prompt 12 — Add canonical coding-agent instructions
+# Prompt 13 — Add canonical coding-agent instructions
 
 Using the previously supplied repository contract, make the repository’s development and governance
 rules discoverable to major coding agents without duplicating the policy.

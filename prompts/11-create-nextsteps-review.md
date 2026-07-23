@@ -1,4 +1,4 @@
-# Prompt 10 — Create the post-build review and next-steps document
+# Prompt 11 — Create the post-build review and next-steps document
 
 Using the previously supplied repository contract, perform an evidence-based review of the current
 OntologyService repository and create `docs/nextsteps.md`.
@@ -42,11 +42,11 @@ Create `docs/nextsteps.md` with:
    domains.
 4. Security-critical test gaps, especially direct SPARQL guardrail tests, the 100-row cap, compiler
    rejection paths, store ambiguity, parsers, and HTTP boundaries.
-5. The container host allow-list correction, marked completed only if Prompt 8 is present in Git
+5. The container host allow-list correction, marked completed only if Prompt 9 is present in Git
    history and verified in the current files.
 6. The build-time embedding matcher as the largest product step, with its trust-boundary and
    determinism constraints.
-7. Reuse/security/contribution policy work, marked completed only if Prompt 9 is present and the
+7. Reuse/security/contribution policy work, marked completed only if Prompt 10 is present and the
    files agree.
 8. Documented first-release limits that should remain scheduled rather than presented as defects.
 9. A concise recommended sequence separating quick governance/test work from larger product bets.

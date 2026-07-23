@@ -1,4 +1,4 @@
-# Prompt 9 — Add reuse, security, and contribution policies
+# Prompt 10 — Add reuse, security, and contribution policies
 
 Using the previously supplied repository contract, close the repository-policy gaps discovered by
 the reconstruction audit.

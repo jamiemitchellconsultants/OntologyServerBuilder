@@ -1,4 +1,4 @@
-# Prompt 14 — Position OntologyService as general purpose
+# Prompt 15 — Position OntologyService as general purpose
 
 Using the previously supplied repository contract, audit and revise the repository so the service
 is clearly general purpose while finance remains its first reference domain.

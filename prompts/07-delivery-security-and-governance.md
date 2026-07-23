@@ -1,6 +1,6 @@
-# Prompt 6 — Delivery, security, documentation, and Narrative
+# Prompt 7 — Delivery, security, documentation, and governance
 
-Using the previously supplied repository contract, implement Stage 6: production packaging and
+Using the previously supplied repository contract, implement Stage 7: production packaging and
 repository governance.
 
 Add:
@@ -12,7 +12,8 @@ Add:
 - `npm ci`;
 - `npm run check`;
 - `npm audit --audit-level=high`;
-- a pull-request template;
+- delivery and validation guidance added to the existing pull-request template without changing its
+  Narrative headings;
 - complete README usage and MCP connection instructions;
 - architecture documentation;
 - system-registration and human-review documentation.
@@ -25,14 +26,19 @@ Document these deployment boundaries explicitly:
 - An external triple store is a future adapter, not a current dependency.
 - Model-assisted matching may be added only at build time with recorded model and version evidence.
 
-Adopt the Project Narrative mechanism from `jamiemitchellconsultants/Narrative`:
+Verify the Project Narrative mechanism installed in Prompt 2:
 
 - Meaningful product, architecture, governance, operational, correction, or experimental pull
   requests use the `narrative-required` label.
 - Qualifying pull requests contain Narrative Context, Narrative Decision, and Narrative
   Consequences.
 - `Narrative.md` is generated from reviewed fragments and is never edited directly.
-- Add validation and post-merge Narrative workflows following the upstream repository contract.
+- Validation and post-merge workflows still match the current upstream contract.
+- Narrative-only proposal or repair pull requests remain unlabelled to prevent recursion.
+
+Do not reinstall or replace the established Narrative configuration in this stage. Update it only
+when the upstream contract or repository requirements have materially changed, and record that as a
+separate governance decision.
 
 Ensure the documentation explains the main decision:
 

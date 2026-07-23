@@ -1,4 +1,4 @@
-# Prompt 8 — Correct the container host allow-list
+# Prompt 9 — Correct the container host allow-list
 
 Using the previously supplied repository contract, implement the first post-audit correction: make
 the shipped container start safely with its documented local command.

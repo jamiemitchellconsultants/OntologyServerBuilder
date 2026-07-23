@@ -1,4 +1,4 @@
-# Prompt 13 — Create the Step 2 security-test guide
+# Prompt 14 — Create the Step 2 security-test guide
 
 Using the previously supplied repository contract and the testing recommendation in
 `docs/nextsteps.md`, create `docs/step2.md` as a prompt-by-prompt teaching guide for closing the

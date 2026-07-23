@@ -1,4 +1,4 @@
-# Prompt 11 — Create the Step 4 embedding-matcher guide
+# Prompt 12 — Create the Step 4 embedding-matcher guide
 
 Using the previously supplied repository contract and the embedding-matcher recommendation in
 `docs/nextsteps.md`, create `docs/step4.md` as a prompt-by-prompt teaching guide for a junior

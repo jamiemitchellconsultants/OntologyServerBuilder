@@ -1,6 +1,6 @@
-# Prompt 2 — Heterogeneous source ingestion
+# Prompt 3 — Heterogeneous source ingestion
 
-Using the previously supplied repository contract, implement Stage 2: deterministic adapters for
+Using the previously supplied repository contract, implement Stage 3: deterministic adapters for
 heterogeneous system definitions.
 
 Support checked-in snapshots in these formats:
