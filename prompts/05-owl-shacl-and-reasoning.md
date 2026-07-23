@@ -1,6 +1,6 @@
-# Prompt 4 — OWL, SHACL, and build-time reasoning
+# Prompt 5 — OWL, SHACL, and build-time reasoning
 
-Using the previously supplied repository contract, implement Stage 4: standards-based RDF
+Using the previously supplied repository contract, implement Stage 5: standards-based RDF
 artifacts and bounded build-time reasoning.
 
 Use N3 for RDF construction and Turtle serialization.

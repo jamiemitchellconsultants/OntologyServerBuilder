@@ -1,4 +1,4 @@
-# Prompt 7 — Independent reconstruction audit
+# Prompt 8 — Independent reconstruction audit
 
 Use this prompt as a fresh task or, ideally, with a different coding agent.
 

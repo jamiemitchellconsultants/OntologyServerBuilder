@@ -8,9 +8,11 @@ initialized workspace.
 
 ## Product objective
 
-Build a governed, general-purpose finance ontology MCP server. It must ingest checked-in system
-definitions, map system-specific entities to canonical finance concepts, explain relationships
-across systems, generate OWL and SHACL, and expose the ontology to Copilot and other MCP clients.
+Build a governed, general-purpose ontology MCP server. It must ingest checked-in system definitions,
+map system-specific entities to governed canonical concepts, explain relationships across systems,
+generate OWL and SHACL, and expose the ontology to Copilot and other MCP clients. Finance is the
+first reference domain and may supply the initial concepts and examples, but product contracts,
+runtime metadata, and core documentation must remain domain-neutral.
 
 ## Non-negotiable architecture
 
