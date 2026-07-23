@@ -62,13 +62,14 @@ Validate and reject:
 
 - invalid or colliding system, entity, or attribute IDs;
 - duplicate entities, attributes, allowed values, or relationships;
-- unsupported types and malformed status enumerations;
 - relationships with missing endpoints or unrelated existing-only endpoints;
 - path-like filenames rather than plain filenames;
 - invalid digests;
-- oversized strings or collections;
 - credentials, transaction instances, personal data, or other unsuitable source content where it
   can be identified structurally.
+
+Report unfamiliar datatypes, status fields without documented allowed values, missing meanings,
+missing evidence, and unanswered questions as review gaps rather than rejecting the proposal.
 
 Defer semantic matching of a new proposal until the ontology owner has reviewed and checked in its
 source and manifest, then run the normal compiler workflow. Proposal data must never become a
@@ -88,8 +89,7 @@ Add store-level and MCP-level tests that prove:
 
 - readiness findings identify the real Brightflag invoice-to-payment blockers;
 - proposals are deterministic and fingerprint-bound;
-- stale fingerprints are reported or rejected according to a documented fail-closed policy;
-- all validation and size limits are enforced;
+- unfamiliar but structurally valid metadata is preserved with explicit review gaps;
 - the tools perform no filesystem, network, GitHub, or ontology mutation;
 - proposal output is always review-required;
 - normalized rebate-system metadata produces a useful package without registering the system.

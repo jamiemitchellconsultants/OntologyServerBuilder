@@ -33,6 +33,7 @@ submit each implementation stage only after the previous stage has passed its ac
 17. [Register a real invoice system](prompts/16-register-real-invoice-system.md)
 18. [Add governed entity-mapping instructions](prompts/17-governed-mapping-instructions.md)
 19. [Add user refinement and system-registration proposals](prompts/18-user-refinement-and-registration-proposals.md)
+20. [Audit proposal safety without rejecting unusual systems](prompts/19-audit-proposal-assurance.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
