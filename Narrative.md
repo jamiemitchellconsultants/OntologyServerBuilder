@@ -14,6 +14,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [3](#entry-add-proposal-assurance-prompt) | 2026-07-23 | Add proposal assurance prompt | product | Add a separate Prompt 19 that hardens plain filenames, exercises accepted, accepted-with-gaps, and rejected cases through both store and MCP boundaries, proves deterministic and read-only no-I/O behavior, and documents rejection versus… |
 | [4](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
 | [5](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
+| [6](#entry-add-in-process-access-token-validation-prompt) | 2026-07-24 | Add in-process access-token validation prompt | product | Add a new post-positioning prompt that directs a coding agent to introduce one in-process bearer-authentication middleware with verifiers selected at HTTP startup. |
 
 ---
 
@@ -163,3 +164,29 @@ Narrative becomes available early enough to capture later decisions through its 
 workflow. The guide must keep prompt numbering, cross-references, upstream Narrative instructions,
 and the distinction between platform contracts and finance reference data current as the
 repositories evolve.
+
+---
+
+<a id="entry-add-in-process-access-token-validation-prompt"></a>
+
+## Entry 6 — 2026-07-24 — Add in-process access-token validation prompt
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+OntologyService now validates HTTP access tokens inside the MCP resource server because its production security policy does not permit delegating that trust decision entirely to a gateway. OntologyServerBuilder currently ends before teaching this later architecture change, leaving learners with the earlier gateway-authentication boundary and no staged path for reproducing the Entra and local-development behavior.
+
+The new stage must remain usable across repositories reconstructed from the earlier prompts, preserve their deterministic read-only runtime and existing transport protections, and provide testable security requirements without depending on live Entra infrastructure or real credentials.
+
+## Decision
+
+Add a new post-positioning prompt that directs a coding agent to introduce one in-process bearer-authentication middleware with verifiers selected at HTTP startup. The prompt requires Entra JWT validation for production, a constant-time fixed token for trusted local deployments, an explicit `none` mode, and fail-closed HTTP startup when authentication configuration is missing or invalid.
+
+It also requires local-JWKS tests for token signature and claim failures, HTTP-boundary tests proving rejection occurs before MCP handling, preservation of stdio and host validation, copyable deployment documentation, and removal of contradictory current-state claims. A narrowly implementation-specific patch was rejected in favor of a repository-adaptive prompt, while retaining explicit acceptance criteria so the security boundary cannot be weakened by interpretation.
+
+## Consequences
+
+Learners can now reproduce the service's current authentication architecture through the same staged, evidence-driven workflow as earlier milestones. The sequence grows by one decision-bearing stage and asks learners to understand JWT validation, JWKS behavior, role and scope enforcement, environment configuration, and the division of responsibilities between the service and its gateway.
+
+Implementations produced from the prompt gain a JOSE dependency and stricter HTTP startup requirements. Static and unauthenticated modes remain available only for trusted local use, while production deployments must supply correct Entra configuration and retain TLS and other edge controls. The generated `Narrative.md` remains untouched; the repository's post-merge Narrative workflow will propose the authoritative entry separately.
