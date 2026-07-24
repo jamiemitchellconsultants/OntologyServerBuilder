@@ -1,4 +1,4 @@
-# Prompt 16 — Validate access tokens in-process
+# Prompt 20 — Validate access tokens in-process
 
 Using the previously supplied repository contract, move HTTP MCP authentication into the service
 process so the resource server validates the caller's bearer token itself.

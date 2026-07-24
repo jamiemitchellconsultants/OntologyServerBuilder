@@ -10,8 +10,10 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | # | Date | Title | Kind | Decision summary |
 |---|---|---|---|---|
 | [1](#entry-add-a-beginner-coding-agent-starter-guide) | 2026-07-23 | Add a beginner coding-agent starter guide | product | Add a standalone beginner guide before the numbered implementation prompts. |
-| [2](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
-| [3](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
+| [2](#entry-add-ontology-workflow-prompts) | 2026-07-23 | Add ontology workflow prompts | product | Add three bounded prompts after the existing general-purpose positioning stage. |
+| [3](#entry-add-proposal-assurance-prompt) | 2026-07-23 | Add proposal assurance prompt | product | Add a separate Prompt 19 that hardens plain filenames, exercises accepted, accepted-with-gaps, and rejected cases through both store and MCP boundaries, proves deterministic and read-only no-I/O behavior, and documents rejection versus… |
+| [4](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
+| [5](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
 
 ---
 
@@ -35,9 +37,49 @@ New learners gain a complete path from an empty GitHub account context to the fi
 
 ---
 
+<a id="entry-add-ontology-workflow-prompts"></a>
+
+## Entry 2 — 2026-07-23 — Add ontology workflow prompts
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+OntologyService has gained governed Brightflag registration, mapping-instruction, and user-proposal workflows that are not yet represented in the junior-developer training sequence. Learners also need a clearer reminder that a labelled decision-bearing implementation PR is followed by a second, separately reviewed Narrative proposal PR.
+
+## Decision
+
+Add three bounded prompts after the existing general-purpose positioning stage. Each prompt preserves the offline compiler and read-only runtime trust boundaries, specifies rejection tests and acceptance criteria, and requires the normal Project Narrative classification. Add an explicit sequence-level reminder that the automated Narrative-only proposal is reviewed and merged separately without the `narrative-required` label.
+
+## Consequences
+
+Learners can now reproduce the real-system registration, governed transformation, and user-to-owner refinement capabilities in deliberate stages. The extra stages lengthen the course and must be maintained alongside OntologyService contracts, but they avoid collapsing source onboarding, executable mapping guidance, and untrusted proposal handling into one oversized prompt. The optional adversarial audit stage remains intentionally shelved.
+
+---
+
+<a id="entry-add-proposal-assurance-prompt"></a>
+
+## Entry 3 — 2026-07-23 — Add proposal assurance prompt
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+The new proposal workflows need assurance against structurally unsafe input, but real enterprise systems often contain non-English labels, supplier-specific datatypes, unfamiliar status conventions, incomplete meanings, and evidence that resembles code or instructions. The earlier Prompt 18 wording mixed structural safety with broader rejection and stale/size policies that OntologyService deliberately did not adopt because they could block legitimate systems or add user friction.
+
+## Decision
+
+Add a separate Prompt 19 that hardens plain filenames, exercises accepted, accepted-with-gaps, and rejected cases through both store and MCP boundaries, proves deterministic and read-only no-I/O behavior, and documents rejection versus preservation. Explicitly keep broad content filters, stale-fingerprint enforcement, and new restrictive payload limits outside this stage. Update the conflicting Prompt 18 bullets so unfamiliar types and incomplete semantics remain review gaps.
+
+## Consequences
+
+Learners receive a concrete security-testing stage that mirrors OntologyService’s implemented assurance policy. They learn to reject incoherent structure while preserving unusual business metadata as inert, review-required evidence. This makes the sequence more precise and adds another maintained prompt, while avoiding a general-purpose content filter and unnecessary high-friction workflows. Future payload or stale-context controls remain separate decisions rather than being introduced implicitly by this audit.
+
+---
+
 <a id="entry-adopt-project-narrative"></a>
 
-## Entry 2 — 2026-07-23 — Adopt Project Narrative
+## Entry 4 — 2026-07-23 — Adopt Project Narrative
 
 *Kind: governance. Status: accepted.*
 
@@ -79,7 +121,7 @@ directly.
 
 <a id="entry-extend-the-ontology-server-learning-sequence"></a>
 
-## Entry 3 — 2026-07-23 — Extend the ontology server learning sequence
+## Entry 5 — 2026-07-23 — Extend the ontology server learning sequence
 
 *Kind: product. Status: accepted.*
 
