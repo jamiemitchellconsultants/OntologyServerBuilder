@@ -30,6 +30,7 @@ submit each implementation stage only after the previous stage has passed its ac
 14. [Add canonical coding-agent instructions](prompts/13-canonical-agent-instructions.md)
 15. [Create the Step 2 security-test guide](prompts/14-create-step2-security-test-guide.md)
 16. [Position the service as general purpose](prompts/15-general-purpose-positioning.md)
+17. [Validate access tokens in-process](prompts/16-in-process-access-token-validation.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
