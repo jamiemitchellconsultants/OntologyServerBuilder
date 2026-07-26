@@ -15,6 +15,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [4](#entry-adopt-project-narrative) | 2026-07-23 | Adopt Project Narrative | governance | Use Project Narrative to preserve the meaningful decisions that shape the ontology-server learning guide. |
 | [5](#entry-extend-the-ontology-server-learning-sequence) | 2026-07-23 | Extend the ontology server learning sequence | product | Extend the guide beyond initial reconstruction and establish Narrative before substantive implementation decisions. |
 | [6](#entry-add-in-process-access-token-validation-prompt) | 2026-07-24 | Add in-process access-token validation prompt | product | Add a new post-positioning prompt that directs a coding agent to introduce one in-process bearer-authentication middleware with verifiers selected at HTTP startup. |
+| [7](#entry-add-finance-and-accounting-migration-prompts) | 2026-07-26 | Add finance and accounting migration prompts | product | Add a nine-stage prompt sequence that plans first, introduces additive standards-alignment layers before compatibility-sensitive migration, and concludes with an independent audit. |
 
 ---
 
@@ -190,3 +191,23 @@ It also requires local-JWKS tests for token signature and claim failures, HTTP-b
 Learners can now reproduce the service's current authentication architecture through the same staged, evidence-driven workflow as earlier milestones. The sequence grows by one decision-bearing stage and asks learners to understand JWT validation, JWKS behavior, role and scope enforcement, environment configuration, and the division of responsibilities between the service and its gateway.
 
 Implementations produced from the prompt gain a JOSE dependency and stricter HTTP startup requirements. Static and unauthenticated modes remain available only for trusted local use, while production deployments must supply correct Entra configuration and retain TLS and other edge controls. The generated `Narrative.md` remains untouched; the repository's post-merge Narrative workflow will propose the authoritative entry separately.
+
+---
+
+<a id="entry-add-finance-and-accounting-migration-prompts"></a>
+
+## Entry 7 — 2026-07-26 — Add finance and accounting migration prompts
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+OntologyService's thin finance reference model needs a governed path to a richer finance and accounting semantic layer for a UK-based group with international operations. A single implementation prompt would make compatibility, licensing, reporting-profile, provenance, and trust-boundary decisions difficult to review independently.
+
+## Decision
+
+Add a nine-stage prompt sequence that plans first, introduces additive standards-alignment layers before compatibility-sensitive migration, and concludes with an independent audit. Pin FIBO to the Q1 2026 `master_2026Q1` release and require the implementation to record its resolved commit and selected module hashes rather than following the moving `master` branch. Treat any later FIBO release as a separate governed upgrade.
+
+## Consequences
+
+The sequence gives implementers bounded changes, explicit review and rollback points, and testable governance expectations. It is intentionally longer than a single migration prompt and requires release references to be maintained. Standards packages remain reference-only until licensing and snapshot approval are recorded, and subsequent FIBO upgrades require their own reviewed decision.
