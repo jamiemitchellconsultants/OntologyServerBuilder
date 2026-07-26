@@ -35,10 +35,25 @@ submit each implementation stage only after the previous stage has passed its ac
 19. [Add user refinement and system-registration proposals](prompts/18-user-refinement-and-registration-proposals.md)
 20. [Audit proposal safety without rejecting unusual systems](prompts/19-audit-proposal-assurance.md)
 21. [Validate access tokens in-process](prompts/20-in-process-access-token-validation.md)
+22. [Plan the finance and accounting semantic migration](prompts/21-plan-finance-accounting-semantic-migration.md)
+23. [Add governed standards registries and semantic alignments](prompts/22-add-governed-standards-alignments.md)
+24. [Add FIBO-aligned foundations and a REA accounting core](prompts/23-add-foundational-and-rea-accounting-model.md)
+25. [Add ledger and journal semantics informed by XBRL Global Ledger](prompts/24-add-ledger-and-journal-semantics.md)
+26. [Remodel procure-to-pay with OASIS UBL alignments](prompts/25-remodel-procure-to-pay-with-ubl.md)
+27. [Remodel treasury, payments, and settlement with ISO 20022 alignments](prompts/26-remodel-treasury-and-payments-with-iso-20022.md)
+28. [Add UK and international accounting-reporting profiles](prompts/27-add-uk-and-international-reporting-profiles.md)
+29. [Migrate the existing finance reference model](prompts/28-migrate-existing-finance-reference-model.md)
+30. [Independently audit the finance and accounting standards migration](prompts/29-audit-finance-accounting-standards-migration.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
 prompts teach how to turn review findings and product feedback into governed follow-up work.
+Prompts 21–29 form a second, compatibility-sensitive sequence for replacing the thin finance
+reference model with a standards-aligned finance and accounting semantic layer. Run them in order:
+the first prompt inventories and plans without changing ontology facts, the middle prompts add
+governed layers alongside existing behavior, Prompt 28 performs the migration, and Prompt 29 audits
+the result independently. The reporting stages support a UK-based international group but require
+an explicit accounting-basis decision for each legal entity and consolidation context.
 
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
