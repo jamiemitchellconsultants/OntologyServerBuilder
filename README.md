@@ -44,6 +44,8 @@ submit each implementation stage only after the previous stage has passed its ac
 28. [Add UK and international accounting-reporting profiles](prompts/27-add-uk-and-international-reporting-profiles.md)
 29. [Migrate the existing finance reference model](prompts/28-migrate-existing-finance-reference-model.md)
 30. [Independently audit the finance and accounting standards migration](prompts/29-audit-finance-accounting-standards-migration.md)
+31. [Deploy one instance to a homelab or local network](prompts/30-homelab-local-network-deployment.md)
+32. [Deploy the service to AWS for production use](prompts/31-aws-production-deployment.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -54,6 +56,13 @@ the first prompt inventories and plans without changing ontology facts, the midd
 governed layers alongside existing behavior, Prompt 28 performs the migration, and Prompt 29 audits
 the result independently. The reporting stages support a UK-based international group but require
 an explicit accounting-basis decision for each legal entity and consolidation context.
+
+Prompts 30 and 31 are the deployment stages. They depend on the container image from Prompt 7, the
+host allow-list correction from Prompt 9, and the in-process token validation from Prompt 20 — not
+on the finance sequence, so a repository that stopped after Prompt 20 deploys the same way as one
+that completed Prompt 29. Run Prompt 30 first: it establishes the deployment vocabulary on a host
+where a mistake is recoverable, and Prompt 31 refers back to its hardening controls. Each states one
+tested baseline and labels anything it could not verify as a manual gate rather than as support.
 
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
