@@ -46,6 +46,7 @@ submit each implementation stage only after the previous stage has passed its ac
 30. [Independently audit the finance and accounting standards migration](prompts/29-audit-finance-accounting-standards-migration.md)
 31. [Deploy one instance to a homelab or local network](prompts/30-homelab-local-network-deployment.md)
 32. [Deploy the service to AWS for production use](prompts/31-aws-production-deployment.md)
+33. [Accept Keycloak access tokens and answer the MCP OAuth challenge](prompts/32-keycloak-mcp-oauth-access-tokens.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -63,6 +64,12 @@ on the finance sequence, so a repository that stopped after Prompt 20 deploys th
 that completed Prompt 29. Run Prompt 30 first: it establishes the deployment vocabulary on a host
 where a mistake is recoverable, and Prompt 31 refers back to its hardening controls. Each states one
 tested baseline and labels anything it could not verify as a manual gate rather than as support.
+
+Prompt 32 supersedes Prompt 30's rule that `MCP_AUTH_MODE=static` is the only acceptable home-lab
+mode. It adds a Keycloak mode and, more to the point, the OAuth protected-resource metadata and 401
+challenge that let a conversational agent obtain a token for itself — without which a home-lab
+deployment is reachable only by clients that can be handed a token in a config file. Production
+remains Entra, unchanged. Run it after Prompt 30; it does not affect Prompt 31.
 
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
