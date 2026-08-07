@@ -1,5 +1,24 @@
 # Prompt 32a — Make the home-lab deployment actually run `keycloak` mode
 
+> **Withdrawn — do not apply.** This prompt assumes `OntologyService/deploy/homelab/` describes the
+> deployment. It does not. The real deployment lives in the LocalAI repository
+> (`docs/setup-ontology-mcp-windows.ps1`): the ontology container joins the external `mcp-public`
+> Docker network behind **one shared Caddy ingress** at `C:\mcp-host` that owns ports 80 and 443,
+> and the Keycloak realm is created by `setup-mcp-host-windows.ps1`. That script already deploys
+> Prompt 32's contract, with `keycloak` as its default mode.
+>
+> Each premise below fails against that. The proxy gap it centres on is not real — Caddy's drop-in
+> is a bare `reverse_proxy ontology-service:3000` with no path matchers, so the protected-resource
+> metadata paths are already forwarded; the exact-match location list belongs to this repository's
+> own nginx file, which nothing runs. A second Compose model would fight the real ingress for ports,
+> which is why that script stopped running its own Caddy. And `mcp-public` already answers the
+> egress question the `identity` network was invented for.
+>
+> Ingress, TLS, and Keycloak are LocalAI's responsibility, not OntologyService's. Kept for the
+> record, and because the reasoning about what a deployment must prove is still worth reading.
+> Superseded by [32b](32b-distinguish-jwks-retrieval-failure.md), which addresses a defect that is
+> real in the real deployment.
+
 Using the previously supplied repository contract, extend the checked-in home-lab deployment so the
 `keycloak` mode added in Prompt 32 can be deployed as shipped, rather than by hand-editing the
 Compose model. This stage changes deployment configuration, the proxy configuration, the operator
