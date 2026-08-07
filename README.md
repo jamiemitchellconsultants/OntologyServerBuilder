@@ -47,7 +47,8 @@ submit each implementation stage only after the previous stage has passed its ac
 31. [Deploy one instance to a homelab or local network](prompts/30-homelab-local-network-deployment.md)
 32. [Deploy the service to AWS for production use](prompts/31-aws-production-deployment.md)
 33. [Accept Keycloak access tokens and answer the MCP OAuth challenge](prompts/32-keycloak-mcp-oauth-access-tokens.md)
-34. [Make the home-lab deployment actually run `keycloak` mode](prompts/32a-deploy-keycloak-mode-on-the-home-lab.md)
+34. ~~[Make the home-lab deployment actually run `keycloak` mode](prompts/32a-deploy-keycloak-mode-on-the-home-lab.md)~~ — **withdrawn**; it assumed this repository owned an ingress that belongs to the LocalAI deployment
+35. [Tell a key-retrieval failure apart from an invalid token](prompts/32b-distinguish-jwks-retrieval-failure.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
