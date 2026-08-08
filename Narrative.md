@@ -21,6 +21,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [10](#entry-add-prompt-32-keycloak-access-tokens-and-the-mcp-oauth-challenge) | 2026-08-02 | Add prompt 32: Keycloak access tokens and the MCP OAuth challenge | product | Add `keycloak` as a fourth mode rather than change any existing one, and specify the discovery path as the substantive part of the stage rather than a detail of it. |
 | [11](#entry-add-prompt-32a-deploy-keycloak-mode-on-the-home-lab) | 2026-08-07 | Add prompt 32a: deploy keycloak mode on the home lab | product | Add a separate prompt rather than amend Prompt 32. |
 | [12](#entry-withdraw-prompt-32a-add-32b-for-jwks-retrieval-failures) | 2026-08-07 | Withdraw prompt 32a; add 32b for JWKS retrieval failures | product | Withdraw 32a by supersession rather than deletion, and replace it with a prompt for a defect that is real in the deployment that actually exists. |
+| [13](#entry-add-qualified-user-ontology-intake-workflow-prompts) | 2026-08-08 | Add qualified-user ontology intake workflow prompts | product | Add a 15-stage Builder sequence that separates a mutable, capability-gated intake plane from the immutable delivery plane. Submitted normalized definitions and change proposals remain outside ontology compilation. |
 
 ---
 
@@ -542,3 +543,23 @@ builds from a git build context and tags per git ref) and on the static token (a
 against an environment literal). Deployment definitions and instructions are maintained in the
 LocalAI repository, which generates changes to the MCP server repositories as needed, so that
 reconciliation is that repository's to sequence — not this one's.
+
+---
+
+<a id="entry-add-qualified-user-ontology-intake-workflow-prompts"></a>
+
+## Entry 13 — 2026-08-08 — Add qualified-user ontology intake workflow prompts
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+The existing Builder sequence supports governed source ingestion and a read-only compiled ontology, but qualified conversational users cannot durably register new API, MCP, OpenAPI, or WSDL definitions, inspect deployed ontology changes, or request reviewed entity-mapping tools through one controlled workflow.
+
+## Decision
+
+Add a 15-stage Builder sequence that separates a mutable, capability-gated intake plane from the immutable delivery plane. Submitted normalized definitions and change proposals remain outside ontology compilation. Engineers export and analyze them using deterministic, cached-embedding, and bounded coding-agent semantic passes, then apply reviewed changes through the OntologyService pull-request and CI/CD process. Approved declarative mappings compile into named, deterministic, pure MCP tools.
+
+## Consequences
+
+Qualified users gain durable submission receipts, deployed-release visibility, and access to approved mapping tools, but cannot retrieve pending submissions or apply ontology changes automatically. Engineers retain responsibility for evidence review, prompt execution, pull requests, deployment, and mapping approval. The initial SQLite intake store is explicitly single-instance; multi-instance deployment requires a later governed storage adapter. Runtime ontology and mapping operations remain offline from model providers and source-definition retrieval.
