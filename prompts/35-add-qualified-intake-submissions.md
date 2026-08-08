@@ -103,6 +103,12 @@ durable-submission metadata. Its schema must require:
 - the compiled ontology fingerprint visible to the caller; and
 - the caller-generated idempotency key.
 
+Retain the SHA-256 digest from `ontology_prepare_system_registration_request` separately from the
+submitted provenance SHA-256 until validation completes. The submitted provenance SHA-256 must equal
+the digest in that normalized preparation output. Reject disagreement at both the MCP and
+`IntakeStore` boundaries; do not collapse the two values before comparison or claim to compare
+against artifact bytes, which this runtime never receives.
+
 Accept only OpenAPI JSON, OpenAPI YAML, exported MCP catalog JSON, and WSDL. Validate the declared
 format, filename extension, and media type as a compatible combination under the repository's
 existing conventions. The declared byte size is provenance that must be a non-negative safe integer;
@@ -161,7 +167,8 @@ intake-enabled test store only where required. Cover:
 - identical idempotent replays returning the original receipt, duplicate subject/key conflicts for
   a different canonical payload, and caller inability to choose the submission subject;
 - submitted provenance digest mismatch or malformed digest rejection, including incompatible source
-  format, media type, or filename-extension combinations;
+  format, media type, or filename-extension combinations; prove at both boundaries that the
+  submitted provenance SHA-256 must equal the SHA-256 in the normalized preparation output;
 - current-fingerprint acceptance and stale-fingerprint preservation with `stale-base`, without
   automatic promotion or rebase;
 - preservation of unfamiliar but structurally safe metadata as inert review gaps;
