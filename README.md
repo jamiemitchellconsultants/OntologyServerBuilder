@@ -79,6 +79,7 @@ submit each implementation stage only after the previous stage has passed its ac
 45. [Complete embedding matcher delivery](prompts/42-complete-embedding-matcher-delivery.md)
 46. [Add bounded LLM intake analysis](prompts/43-add-llm-intake-analysis.md)
 47. [Add deployment release-change visibility](prompts/44-add-release-change-visibility.md)
+48. [Compile named mapping tools](prompts/45-compile-named-mapping-tools.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
