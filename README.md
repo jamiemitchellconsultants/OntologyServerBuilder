@@ -72,6 +72,7 @@ submit each implementation stage only after the previous stage has passed its ac
 38. [Add qualified-user intake submissions](prompts/35-add-qualified-intake-submissions.md)
 39. [Add the engineer intake workbench](prompts/36-add-engineer-intake-workbench.md)
 40. [Add embedding text and cache primitives](prompts/37-add-embedding-text-and-cache-primitives.md)
+41. [Add embedding evidence](prompts/38-add-embedding-configuration-and-evidence.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
