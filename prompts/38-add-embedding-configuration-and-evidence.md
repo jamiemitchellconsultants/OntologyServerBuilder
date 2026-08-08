@@ -69,6 +69,9 @@ optional `embeddingEvidence` field to `MappingCandidate`. Its exact fields are `
 - lower-case SHA-256 source and target content hashes in `sourceContentHash` and
   `targetContentHash`.
 
+Reject every unknown or missing candidate-evidence field whenever `embeddingEvidence` is present;
+its optionality applies only to the evidence object as a whole, not to any member of that object.
+
 The evidence is absent in this stage and must remain absent for disabled lexical candidates,
 including manual, retired, unmatched, and review candidates. Do not create placeholder scores,
 hashes, or cache digests.
@@ -99,7 +102,8 @@ Add focused offline tests using the repository's existing test framework. Cover:
   invalid maximum, invalid threshold, each invalid weight, and an out-of-tolerance weight sum;
 - evidence and compilation-provenance serialization and typed round trips, including rejected
   malformed scores, model identity, cache digest, source or target content hashes, unknown or
-  missing provenance fields, and provenance that disagrees with validated configuration;
+  missing candidate-evidence or provenance fields, and provenance that disagrees with validated
+  configuration;
 - absence of candidate evidence and compilation provenance in disabled mode; and
 - byte-for-byte identical compiled JSON, OWL, SHACL, source fingerprint, mapping results, and
   mapping review when the disabled configuration is used, including a regression comparison against
