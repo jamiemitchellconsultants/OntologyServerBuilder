@@ -2,9 +2,9 @@
 
 Implement only Prompt 1, "Shared embedding text and cache primitives", from the current
 `docs/step4.md` in the separate `OntologyService` repository. Read that guide when this prompt
-runs, together with the current lexical matcher, its normalization helper or call sites, relevant
-entity types, and matcher tests. Adapt names and paths to the repository as it exists; do not
-assume the guide's examples are its current implementation.
+runs, together with `AGENTS.md`, its Project Narrative rules, the current lexical matcher, its
+normalization helper or call sites, relevant entity types, and matcher tests. Adapt names and paths
+to the repository as it exists; do not assume the guide's examples are its current implementation.
 
 This stage creates the pure, offline primitives that later embedding stages consume. It adds no
 configuration, refresh command, HTTP client, credential read, scoring change, compiler integration,
@@ -24,7 +24,8 @@ runtime integration, MCP tool, or CLI command.
 - Add a pure cosine-similarity primitive for finite, fixed-dimension numeric vectors. It must reject
   dimension mismatch and non-finite components. Define and test zero-vector handling explicitly;
   zero vectors must be rejected anywhere a cache entry is accepted. Include the guide's unit-score
-  normalization helper if its current Prompt 1 requires it.
+  normalization helper as an exported `normalizeToUnitScore(cosine)` function mapping cosine
+  `[-1, 1]` to `[0, 1]`.
 
 ## Cache contract
 
@@ -41,8 +42,9 @@ shape. Preserve its schema version and exact model identity fields (ID, version,
 - Serialize deterministically: sort entity IDs and cache entry keys; round every vector component to
   six decimal places before serialization; and use stable numeric/JSON serialization so equivalent
   valid cache data produces byte-identical output.
-- Write a cache atomically through a sibling temporary file: safely write, flush and close it, then
-  rename it over the destination. On any write, flush, close, or rename failure, remove only the
+- Write a cache atomically through a sibling temporary file: write it, call `fsync`, close it, then
+  rename it over the destination, in that order. This is the crash-safety boundary: never rename an
+  unflushed or open temporary file. On any write, `fsync`, close, or rename failure, remove only the
   temporary file and leave the previous destination cache intact.
 
 ## Boundaries
@@ -59,12 +61,14 @@ shape. Preserve its schema version and exact model identity fields (ID, version,
 Add focused offline tests using the repository's existing test framework. Cover:
 
 - known-vector cosine results, dimension mismatch, non-finite values, and zero-vector rejection;
+- `normalizeToUnitScore(cosine)` results for `-1`, `0`, and `1`;
 - normalization equivalence between the existing matcher and canonical embedding text;
 - stable text ordering and SHA-256 content-hash changes;
 - malformed cache entries, duplicate entity IDs, duplicate content hashes, invalid model identity,
   vector dimension mismatch, and non-finite or zero vector rejection;
 - exact cache-identity mismatch; deterministic sorted output and six-decimal numeric rounding; and
-  failed atomic writes, including temporary-file cleanup and preservation of the previous cache;
+  failed write, `fsync`, close, and rename operations, each proving temporary-file cleanup,
+  preservation of the previous cache, and that rename follows a successful `fsync` and close;
 - existing matcher regression tests, proving unchanged lexical matching with embeddings disabled.
 
 Keep all tests offline; no test may use a live endpoint, environment credential, compiler mutation,
@@ -73,3 +77,11 @@ provided), `git diff --check`, and the matcher regression tests. Confirm that
 `ontology/compiled/` has no diff.
 
 Commit locally with a focused message. Do not push.
+
+## Governance
+
+Before changes, classify this implementation decision under the target repository's Project
+Narrative policy. If it is decision-bearing and a pull request is opened, apply
+`narrative-required` together with substantive `## Narrative Context`, `## Narrative Decision`,
+and `## Narrative Consequences` sections before merge. Never hand-edit compiled `Narrative.md`;
+follow the target repository's fragment and generation rules instead.
