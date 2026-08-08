@@ -109,9 +109,12 @@ and boundary tests, and `git diff --check`. Inspect generated artifacts and conf
 
 ## Governance
 
-This is a meaningful operational and architecture decision. Before opening a pull request, classify
-it under the target repository's Project Narrative policy. For a decision-bearing pull request,
-apply `narrative-required` together with substantive `## Narrative Context`, `## Narrative
-Decision`, and `## Narrative Consequences` sections in the same action, before merge. Never
-hand-edit, hand-merge, or otherwise author generated `Narrative.md`; use a reviewed fragment and
-the target repository's generation process when an entry is required.
+This is a decision-bearing operational and architecture implementation. Do not merge its target
+repository pull request without applying `narrative-required` and substantive `## Narrative
+Context`, `## Narrative Decision`, and `## Narrative Consequences` sections together before merge.
+Do not apply the label first and add the sections later. `gh pr create --body` replaces the pull
+request template, so any use of it must carry all three sections rather than bypassing the template.
+
+Never hand-edit, hand-merge, or otherwise author generated `Narrative.md`; use a reviewed fragment
+and the target repository's generation process. The resulting Narrative-only pull request must not
+have `narrative-required`, or it would recursively create another entry.
