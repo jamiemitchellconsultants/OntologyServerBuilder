@@ -75,6 +75,7 @@ submit each implementation stage only after the previous stage has passed its ac
 41. [Add embedding evidence](prompts/38-add-embedding-configuration-and-evidence.md)
 42. [Add the explicit embedding refresh command](prompts/39-add-embedding-refresh-command.md)
 43. [Fuse embeddings into governed matching](prompts/40-fuse-embeddings-into-matching.md)
+44. [Integrate the embedding cache](prompts/41-integrate-embedding-cache-with-compilation.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
