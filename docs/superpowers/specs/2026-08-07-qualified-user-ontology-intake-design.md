@@ -51,7 +51,7 @@ The existing sequence already teaches:
 - reviewed declarative mapping instructions;
 - stateless, review-required system-registration and ontology-refinement proposal packages;
 - in-process access-token validation and Keycloak MCP OAuth discovery; and
-- a six-stage guide for adding an offline, cached embedding matcher.
+- a seven-stage guide for adding an offline, cached embedding matcher.
 
 The requested workflow adds four material capabilities: durable intake, engineer-side combined
 matching, deployed change visibility, and compiled named mapping tools.
@@ -401,7 +401,7 @@ pass.
 
 ## Builder prompt sequence
 
-Add these stages after Prompt 32:
+Add these stages after Prompt 32b:
 
 33. Plan qualified-user intake and governed mapping-tool delivery.
 34. Add capability authorization and the durable append-only intake store.
@@ -419,9 +419,10 @@ Add these stages after Prompt 32:
 46. Register the accounts-payable example and approve the invoice-to-payment mapping tool.
 47. Independently audit the complete qualified-user-to-deployment workflow.
 
-Prompt 33 changes no runtime behavior. Prompts 37–42 preserve the existing six-step decomposition
-from `docs/step4.md` in the built repository. Prompt 47 is an audit stage and cannot repair defects
-inside the audit task.
+Prompt 33 changes no runtime behavior. The current `docs/step4.md` in the built repository is a
+seven-stage guide: Prompts 37–41 preserve its first five stages, while Prompt 42 deliberately
+combines stages 6 and 7 into the final embedding delivery and acceptance stage. Prompt 47 is an
+audit stage and cannot repair defects inside the audit task.
 
 Each prompt will update the README sequence in the same change that adds it. Every prompt will state
 its dependencies, scope exclusions, executable acceptance evidence, Project Narrative
