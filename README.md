@@ -82,6 +82,8 @@ submit each implementation stage only after the previous stage has passed its ac
 48. [Compile named mapping tools](prompts/45-compile-named-mapping-tools.md)
 49. [Add the accounts-payable mapping example](prompts/46-add-accounts-payable-mapping-example.md)
 50. [Independently audit the qualified-user workflow](prompts/47-audit-qualified-user-workflow.md)
+51. [Package the qualified-user MCP-registration
+    skill](prompts/48-package-qualified-user-registration-skill.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -115,6 +117,13 @@ change visibility, Prompt 45 adds named pure mapping tools, Prompt 46 proves the
 invoice-to-payment example, and Prompt 47 audits the whole boundary independently. Intake stays
 disabled by default in every deployment and is enabled only once its S3 bucket, access scope, and
 monitoring are deliberately provisioned, including under Prompt 31's multi-instance AWS baseline.
+
+Prompt 48 only depends on Prompt 35's submission-tool names and could run as early as that stage
+completes. It is numbered after the Prompt 47 audit purely to avoid renumbering the
+already-audited 33–47 sequence, not because it depends on any of Prompts 36–47. It packages the
+qualified-user side of registration — reachable today only by manually supplying the
+`register-supplier-mcp-server.md` template — as an installable Claude Skill distributed from
+`OntologyService`'s own repository, so a qualified user's own client can trigger it directly.
 
 ### Operational prompt templates
 
