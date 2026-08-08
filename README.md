@@ -107,22 +107,27 @@ deployment is reachable only by clients that can be handed a token in a config f
 remains Entra, unchanged. Run it after Prompt 30; it does not affect Prompt 31.
 
 Prompts 33–47 follow active Prompt 32b and form one ordered qualified-user contribution sequence.
-Prompt 33 plans without changing behavior. Prompts 34–36 add the isolated single-instance intake
-plane and workbench. Prompts 37–41 execute the first five build-time embedding stages from the
+Prompt 33 plans without changing behavior. Prompts 34–36 add the isolated S3-backed intake plane
+and workbench. Prompts 37–41 execute the first five build-time embedding stages from the
 existing Step 4 guide. Prompt 42 deliberately combines the guide's Prompt 6 assurance and Prompt 7
 documentation stages. Prompt 43 adds advisory coding-agent analysis, Prompt 44 adds deployed
 change visibility, Prompt 45 adds named pure mapping tools, Prompt 46 proves the
-invoice-to-payment example, and Prompt 47 audits the whole boundary independently. Intake remains
-disabled in multi-instance deployments until a later governed storage adapter is added.
+invoice-to-payment example, and Prompt 47 audits the whole boundary independently. Intake stays
+disabled by default in every deployment and is enabled only once its S3 bucket, access scope, and
+monitoring are deliberately provisioned, including under Prompt 31's multi-instance AWS baseline.
 
 ### Operational prompt templates
 
-Use these only after the prerequisite stage has completed and a human engineer has supplied the
-reviewed evidence named by the template. These templates are Builder-maintained operator inputs:
-when an engineer starts the corresponding coding-agent task in `OntologyService`, supply the full
-template contents alongside that task. Do not copy a template into `OntologyService` or expect a
-Builder path to exist there.
+Use these only after the prerequisite stage has completed. Four are engineer-maintained operator
+inputs: when an engineer starts the corresponding coding-agent task in `OntologyService`, supply the
+full template contents alongside that task, after a human engineer has supplied the reviewed
+evidence the template names. Do not copy a template into `OntologyService` or expect a Builder path
+to exist there.
 
+- [Register a supplier's MCP server](prompts/templates/register-supplier-mcp-server.md) — for the
+  qualified user's own MCP-capable client, immediately after connecting to a supplier's server, once
+  Prompt 35's submission tools exist. Unlike the four below, this one runs entirely in the user's
+  own session and never touches the `OntologyService` repository.
 - [Register reviewed exported intake](prompts/templates/register-exported-intake.md) — after
   Prompt 36's export and deterministic analysis.
 - [Resolve an intake mapping review](prompts/templates/resolve-intake-mapping-review.md) — after

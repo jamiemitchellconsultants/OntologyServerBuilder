@@ -48,7 +48,8 @@ a manual gate only; a manual gate names its exact command and expected result.
     canonical-schema validation -> mapping -> target-payload workflow, ending before any target
     call, including source mismatch, canonical mismatch, ambiguous correspondence, and missing
     adapter failure paths with no target call.
-12. Single-instance SQLite enforcement and intake-disabled multi-instance deployment.
+12. Concurrent-writer safety of the S3-backed intake adapter and correct behavior when intake is
+    disabled.
 13. Backup, restore, and append-only audit evidence.
 
 For each relevant surface, prove the separation of the intake and delivery planes: qualified-user
@@ -100,7 +101,7 @@ details, local paths, raw source artifacts, or unbounded intake content in the r
   output, or acceptance checks.
 
 Run the repository's full check (currently `npm run check`, if still provided), focused intake
-authorization/isolation, SQLite/recovery, export/digest/re-parse, deterministic/embedding/LLM,
+authorization/isolation, S3/recovery, export/digest/re-parse, deterministic/embedding/LLM,
 release-visibility, ontology-change, mapping evaluator/MCP/schema/no-I/O, and synthetic workflow
 tests, plus `git diff --check`. Inspect generated artifacts and report rather than repair any
 unexplained change. Keep all tests deterministic and offline.

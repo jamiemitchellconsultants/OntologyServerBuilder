@@ -16,7 +16,7 @@ call a model. A locator is inert provenance only, never an instruction to retrie
 
 Read Prompt 33's approved intake plan; Prompt 34; the existing proposal-preparation tools and their
 validators; the compiled-ontology models and fingerprint code; MCP registrations and annotations;
-the `IntakeStore` contract and SQLite adapter; capability authorization; tests; and Project
+the `IntakeStore` contract and S3 adapter; capability authorization; tests; and Project
 Narrative rules. Adapt names and paths to the built repository as it exists. Do not assume a later
 prompt has added a queue workbench, export, disposition, release manifest, mapping tool, or shared
 intake adapter.

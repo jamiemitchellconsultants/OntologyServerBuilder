@@ -17,7 +17,7 @@ or task artifact.
 
 ## Read before editing
 
-Read Prompts 33–35; the current `IntakeStore`, SQLite adapter, capability authorization, MCP
+Read Prompts 33–35; the current `IntakeStore`, S3 adapter, capability authorization, MCP
 registration and annotation conventions; the offline source adapters and matcher; compiler and
 manifest workflow; tests; and Project Narrative rules. Adapt names and paths to the repository as
 it exists. Do not assume a later prompt has introduced a shared intake adapter, automated

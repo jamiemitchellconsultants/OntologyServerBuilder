@@ -37,7 +37,8 @@ the relevant system tools, invoke a pure mapping tool, and call the target syste
 - Qualified users cannot browse, retrieve, edit, or disposition pending submissions.
 - Mapping tools do not retrieve source records or invoke target systems.
 - The initial design does not add subscriptions, webhooks, or push notifications.
-- The initial design does not implement a multi-instance intake database adapter.
+- The initial design targets one S3-compatible object-storage backend; a different storage
+  technology (for example a managed relational or NoSQL service) remains a later governed decision.
 - The workflow does not perform a real payment in tests or examples.
 
 ## Existing foundation
@@ -165,13 +166,17 @@ record; the caller and engineer remain responsible for excluding them.
 
 ## Intake storage and lifecycle
 
-Define an `IntakeStore` interface and ship SQLite as the initial single-instance adapter. The
-database is outside `ontology/`, is never compiled, and is not copied into the container image.
-Its configured path must be on a persistent deployment volume.
+Define an `IntakeStore` interface and ship S3-compatible object storage as the initial adapter. The
+bucket is outside `ontology/`, is never compiled, and is not copied into the container image. The
+same adapter targets real AWS S3 in production and a local S3-compatible endpoint (such as
+LocalStack) in the home-lab environment through an explicit, optional endpoint override, so both
+environments exercise the same code path.
 
-Store canonical JSON payloads and their SHA-256 digests. A submission row is immutable. Lifecycle
-changes are separate append-only events. The service API exposes no update or delete operation for
-a stored payload.
+Store canonical JSON payloads and their SHA-256 digests as immutable objects, written once with a
+create-only conditional request so a colliding key can never overwrite existing data. A submission
+object is immutable. Lifecycle changes are separate append-only event objects under a
+submission-scoped key prefix. The service API exposes no update or delete operation for a stored
+payload.
 
 The lifecycle is:
 
@@ -184,17 +189,23 @@ repository change has merged. An `accepted` disposition means only that an engin
 intake item for governed engineering work.
 
 A successful submission returns a receipt with the server-generated intake ID, payload digest,
-received timestamp, and `received` status. The server issues no receipt until the transaction is
-durable. A queue failure returns an error.
+received timestamp, and `received` status. The server issues no receipt until the submission object
+is durably written. A store failure returns an error.
 
-The uniqueness key is authenticated subject plus idempotency key. Reuse with an identical payload
-digest returns the original receipt. Reuse with a different digest fails. Tests inject the clock
-and ID generator; production timestamps and IDs need not be deterministic.
+The uniqueness key is authenticated subject plus idempotency key, enforced by a create-only
+conditional write to a lookup object keyed on that subject and key before the submission object is
+written. Reuse with an identical payload digest returns the original receipt. Reuse with a different
+digest fails. Tests inject the clock, ID generator, and the object-storage client; production
+timestamps and IDs need not be deterministic.
 
-The deployment guide must cover file permissions, volume ownership, backup, restore, retention,
-capacity monitoring, and encryption at rest. Per-record deletion is not exposed through MCP;
-operator-controlled archival or database rotation applies the configured retention policy. A later
-decision may add a multi-instance adapter without changing the `IntakeStore` contract.
+The deployment guide must cover bucket access scope (a least-privilege IAM policy or access key),
+versioning, backup/replication, lifecycle/retention rules, capacity monitoring, and encryption at
+rest. Per-record deletion is not exposed through MCP; operator-controlled lifecycle rules apply the
+configured retention policy. Because create-only conditional writes are a server-side atomic
+guarantee rather than a client-side lock, this adapter is safe under concurrent writers from the
+outset: it does not require the single-instance restriction a local embedded database would need, so
+a multi-instance deployment may enable intake once the bucket and its access scope are provisioned
+and verified.
 
 ## Engineer intake workbench
 
@@ -274,10 +285,12 @@ LLM output is traceable advisory evidence, not deterministic evidence.
 
 OntologyServerBuilder will provide reusable operational prompt templates for:
 
-- registering an exported intake package;
-- resolving its mapping-review report;
-- creating or revising a named mapping tool; and
-- applying a qualified user's deployed-ontology change proposal.
+- a qualified user registering a supplier's MCP server, run in the user's own MCP-capable client
+  rather than against the `OntologyService` repository;
+- an engineer registering an exported intake package;
+- an engineer resolving its mapping-review report;
+- an engineer creating or revising a named mapping tool; and
+- an engineer applying a qualified user's deployed-ontology change proposal.
 
 The templates instruct a coding agent working in OntologyService. They never edit either repository
 automatically. The engineer reviews the report, selects evidence, and authorizes a bounded task.
@@ -435,6 +448,8 @@ runtime ontology into a self-modifying system. Engineers receive richer evidence
 coding-agent prompts, while deployment remains the only activation boundary.
 
 The cost is a new stateful intake subsystem, capability authorization, operational backup and
-retention duties, a longer teaching sequence, and additional generated-tool assurance. SQLite is a
-deliberate single-instance baseline; multi-instance production storage remains a later governed
-decision.
+retention duties, a longer teaching sequence, and additional generated-tool assurance.
+S3-compatible object storage is the deliberate initial baseline; it supports concurrent
+multi-instance writers from the outset, so enabling intake under a multi-instance production
+deployment is an operational decision about bucket provisioning and access scope, not a
+storage-technology change.
