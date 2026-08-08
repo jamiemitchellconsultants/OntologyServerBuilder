@@ -1,9 +1,9 @@
 # Prompt 46 — Add the accounts-payable mapping example
 
-Using the Brightflag registration from Prompt 16, governed mapping instructions from Prompt 17,
-the bounded intake analysis from Prompt 43, release visibility from Prompt 44, and named mapping
-tools from Prompt 45, add one synthetic, reviewed accounts-payable example in the separate
-`OntologyService` repository. Do not change `OntologyServerBuilder` in this stage.
+Using the Brightflag concepts and governed source example from Prompt 16, mapping instructions
+from Prompt 17, the bounded intake analysis from Prompt 43, release visibility from Prompt 44,
+and named mapping tools from Prompt 45, add one synthetic, reviewed accounts-payable example in
+the separate `OntologyService` repository. Do not change `OntologyServerBuilder` in this stage.
 
 This is a deterministic fixture and assurance example. It demonstrates how a qualified user can
 register an invoice-management MCP catalog and an accounts-payable OpenAPI definition, how an
@@ -21,13 +21,31 @@ and evaluator, MCP authorization conventions, canonical JSON/schema helpers, and
 Read the Builder templates for registration, review resolution, ontology-change application, and
 named mapping tools. Adapt paths and identifiers to the target repository as it exists. Do not
 assume a production accounts-payable system, a live endpoint, or that an intake proposal is an
-approved ontology source.
+approved ontology source. Prompt 16 supplies governed Brightflag OpenAPI source concepts only;
+it neither supplies nor implies a Brightflag MCP export, vendor authenticity, or live discovery.
 
 ## Synthetic source fixtures and qualified-user registration
 
-Add a checked-in, offline OpenAPI snapshot for a synthetic accounts-payable system. Use synthetic
-system, entity, operation, and identifier values. It must define a payment-instruction request
-business schema, distinct from transport, authentication, and error wrappers, with at least:
+Create two complete, checked-in offline fixtures with explicit paths, canonical bytes, and recorded
+lower-case SHA-256 digests: `fixtures/qualified-user-intake/synthetic-invoice-mcp-catalog.json`
+and `fixtures/qualified-user-intake/synthetic-accounts-payable-openapi.json`. Repeated fixture
+generation or canonicalization must produce byte-identical content and the recorded digest. They
+have distinct synthetic provenance and source kinds (`mcp` and `openapi` respectively); neither
+may claim Brightflag vendor authenticity or use a live locator.
+
+The synthetic MCP catalog must be sufficient both for a system-registration proposal and the later
+in-memory “pay invoice 1234” workflow. Define a synthetic server identity and version; an
+explicit tool name for retrieving one invoice; bounded input and output JSON Schemas; an `Invoice`
+entity with stable identifiers, invoice ID, payable status, approved gross total, currency, vendor
+and pay-site-reference fields; and bounded example metadata needed by Prompt 33's registration
+template. Use a source kind of `mcp`, its own extractor/provenance, and the catalog's own digest.
+It may reuse governed field concepts and stable references from Prompt 16 solely for this
+demonstration; it is a new synthetic artifact, not an exported Brightflag catalog.
+
+The synthetic OpenAPI fixture has source kind `openapi`, its own provenance and digest, and uses
+synthetic system, entity, operation, and identifier values. It must define a payment-instruction
+request business schema, distinct from transport, authentication, and error wrappers, with at
+least:
 
 - invoice reference;
 - idempotency key;
@@ -39,27 +57,28 @@ business schema, distinct from transport, authentication, and error wrappers, wi
 Define target requiredness, identifier format, validation rules, amount and currency constraints,
 and idempotency behavior in the fixture and governed evidence. Do not include a real endpoint,
 credentials, access token, bank-routing details, personal data, payment details, or live business
-records. Compilation, tests, and runtime must not fetch the fixture or call an accounts-payable
-endpoint.
+records. Compilation, tests, and runtime must not fetch either fixture, discover a catalog, or
+call an accounts-payable endpoint.
 
-Provide deterministic, in-memory synthetic registration-flow tests for both systems. A qualified
-user agent, using its own authorized access, obtains the exported Brightflag MCP catalog, extracts
+Provide deterministic, in-memory synthetic registration-flow tests for both fixtures. A qualified
+user agent, using its own authorized access, reads the checked-in synthetic MCP catalog, extracts
 bounded normalized metadata, and submits the registration using
-`ontology_submit_system_registration`. The same agent obtains the synthetic accounts-payable
-OpenAPI snapshot, extracts normalized metadata, and submits a separate registration. Test that
-each submission is capability-gated by `ontology:propose`, returns only a receipt to its submitter,
-and remains isolated intake evidence rather than an ontology fact. Neither flow uploads raw
-artifact bytes, asks the server to retrieve a locator, accesses a live system, or lets the
-qualified user list, export, or disposition pending intake.
+`ontology_submit_system_registration`. The same agent reads the checked-in synthetic
+accounts-payable OpenAPI fixture, extracts normalized metadata, and submits a separate
+registration. Test that both fixtures exist, validate, retain distinct source kinds, provenance,
+and digests, and that each submission is capability-gated by `ontology:propose`, returns only a
+receipt to its submitter, and remains isolated intake evidence rather than an ontology fact.
+Neither flow uploads raw artifact bytes, asks the server to retrieve a locator, accesses a live
+system, or lets the qualified user list, export, or disposition pending intake.
 
 ## Engineer analysis, governed source change, and deployment boundary
 
-Model the engineer workflow explicitly and entirely with synthetic artifacts. An engineer with
-`ontology:intake:review` exports the two submissions, obtains the original fixture artifacts
-separately, verifies their filename, size, format, and digest, and runs the deterministic,
-embedding, and bounded LLM-advisory workbench paths. Keep parser discrepancies, candidate
-evidence, semantic gaps, and disagreements visible; no matching pass, coding agent, or intake
-disposition may accept ontology facts or a mapping automatically.
+Model the engineer workflow explicitly and entirely with the two checked-in synthetic artifacts.
+An engineer with `ontology:intake:review` exports the two submissions, supplies those local
+fixture paths explicitly, verifies their filename, size, format, source kind, provenance, and
+digest, and runs the deterministic, embedding, and bounded LLM-advisory workbench paths. Keep
+parser discrepancies, candidate evidence, semantic gaps, and disagreements visible; no matching
+pass, coding agent, or intake disposition may accept ontology facts or a mapping automatically.
 
 Require the engineer to use the registration and review templates to make a normal, reviewable
 ontology-source change. The change must add only facts supported by the synthetic source and
@@ -134,8 +153,9 @@ can occur during compilation, tool discovery, or invocation.
 
 Add an in-memory, offline assurance test for the instruction “pay invoice 1234”. The qualified
 user agent must first authenticate with `ontology:read` and retain its own separate authorization
-to the invoice MCP fixture and target accounts-payable API. It retrieves invoice **1234** and its
-supporting pay-site records through the invoice-system fixture, supplies those records to
+to the synthetic invoice MCP fixture and target accounts-payable API. Assert that the catalog's
+bounded get-invoice tool schema and fixture metadata drive retrieval of invoice **1234** and its
+supporting pay-site records through the invoice-system fixture, then supply those records to
 `map_brightflag_invoice_to_accounts_payable_payment_instruction`, and validates the returned
 synthetic payment-instruction payload against the accounts-payable request schema.
 
@@ -150,8 +170,11 @@ call in this workflow test.
 
 ## Acceptance criteria and verification
 
-- A checked-in synthetic accounts-payable OpenAPI snapshot separates business payment-instruction
-  data from transport/error wrappers and supplies every fact needed to review the mapping.
+- Checked-in synthetic MCP-catalog and accounts-payable OpenAPI fixtures both validate, have
+  canonical deterministic bytes and distinct source kinds, provenance, and digests. The catalog's
+  bounded get-invoice schema and metadata support the invoice **1234** orchestration fixture.
+- The synthetic accounts-payable OpenAPI snapshot separates business payment-instruction data from
+  transport/error wrappers and supplies every fact needed to review the mapping.
 - Qualified-user registration stays in the isolated intake plane; engineer analysis, review, CI/CD,
   and deployment remain the only route to delivery-plane ontology facts and mapping tools.
 - The exact named mapping tool is approved only after every payable-status, target-contract,
