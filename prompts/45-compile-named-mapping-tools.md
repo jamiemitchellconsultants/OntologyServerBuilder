@@ -52,30 +52,40 @@ reject unknown keywords or features that would make evaluation ambiguous.
 
 Validate that the referenced mapping instruction is approved, structurally complete, and compatible
 with the declared entities, lookups, preconditions, transformations, and failure behavior. A
-`review-required`, deprecated, incomplete, invalid, or unresolved definition or instruction must
-fail closed: it must not produce a tool descriptor or MCP registration. Do not silently omit an
-entry that claims to be approved; make the compilation error actionable.
+`review-required`, incomplete, invalid, or unresolved definition or instruction must fail closed:
+it must not produce a callable or release-comparison descriptor. Do not silently omit an entry that
+claims to be approved; make the compilation error actionable. A deprecated governed mapping-tool
+definition is the sole lifecycle exception: validate its stable identity and required lifecycle
+provenance, then retain a deterministic non-callable release descriptor or tombstone as specified
+below. It must never produce an MCP registration or evaluator input.
 
-Compile only complete approved definitions into canonical, stable-ID-sorted descriptors that are
-part of the reviewed compiled ontology and fingerprint according to existing conventions. Each
-descriptor must retain the mapping-tool ID, stable MCP name, version, source and target schema
-identity, input shape, failure contract, review provenance, and enough governed evidence for
-runtime provenance. Repeated compilation of equivalent reordered source objects must produce
-byte-identical descriptors and fingerprint inputs. Never hand-edit compiled artifacts.
+Compile two canonical, stable-ID-sorted descriptor projections that are part of the reviewed
+compiled ontology and fingerprint according to existing conventions. A complete, approved,
+`active` definition produces a callable descriptor containing mapping-tool ID, stable MCP name,
+version, source and target schema identity, input shape, failure contract, review provenance, and
+enough governed evidence for runtime provenance. A `deprecated` definition produces only a
+non-callable lifecycle/release descriptor or tombstone that preserves its stable mapping-tool ID,
+stable MCP name, semantic version, lifecycle/deprecation state, source and target identity, and
+governed provenance. Repeated compilation of equivalent reordered source objects must produce
+byte-identical descriptor projections and fingerprint inputs. Never hand-edit compiled artifacts.
 
 Integrate descriptors with Prompt 44's existing release-manifest generator and its optional,
 canonical named-mapping-tool descriptor collection. Do not replace the manifest schema, generator,
-or its forward-compatible empty-class rule. The candidate artifact must expose the stable-ID-sorted
-compiled descriptors through that interface, so the union-based release classifier emits added,
-changed, deprecated, and removed named-tool records when either artifact has descriptors. Mapping
-descriptors remain part of the ontology fingerprint according to the existing conventions; the
-release manifest and release metadata remain non-participating delivery metadata.
+or its forward-compatible empty-class rule. The candidate artifact must expose both active callable
+descriptors and deprecated non-callable lifecycle/release descriptors through one stable-ID-sorted
+release-comparison interface, so the union-based release classifier emits added, changed,
+deprecated, and removed named-tool records when either artifact has descriptors. A previous
+deprecated tombstone absent from the candidate is `removed`; do not discard it before release
+comparison. Mapping descriptors remain part of the ontology fingerprint according to the existing
+conventions; the release manifest and release metadata remain non-participating delivery metadata.
 
-At startup, load only validated compiled descriptors. Register exactly one separately named MCP
-tool closure for each descriptor using its stable MCP name. Tool discovery must therefore show only
-approved, complete mapping tools and must change deterministically when the compiled descriptors
-change. Do not register a generic execute-any-mapping tool, dynamically discover definitions from
-the filesystem, intake store, network, or a mutable runtime source, or generate code at startup.
+At startup, load only validated active callable descriptors. Register exactly one separately named
+MCP tool closure for each active descriptor using its stable MCP name. Tool discovery must therefore
+show only active, approved, complete mapping tools and must change deterministically when the
+callable descriptor set changes. A deprecated lifecycle/release descriptor or tombstone is never
+registered, disclosed through discovery, selected by an evaluator, or callable. Do not register a
+generic execute-any-mapping tool, dynamically discover definitions from the filesystem, intake
+store, network, or a mutable runtime source, or generate code at startup.
 
 Every generated closure must authenticate to the existing `AuthorisedPrincipal` and require
 `ontology:read` using the repository's established authorization path before it validates tool
@@ -122,15 +132,18 @@ Add focused, offline tests covering:
 
 - every required definition field, reference, status, schema keyword, operation, provenance,
   unresolved-requirement, and example validation rule;
-- omission of non-approved, deprecated, incomplete, invalid, and unresolved definitions, and
-  actionable failure for a definition falsely claiming approval;
+- omission of non-approved, incomplete, invalid, and unresolved definitions, actionable failure
+  for a definition falsely claiming approval, and deterministic non-callable release tombstones for
+  deprecated definitions;
 - stable MCP name collision rejection, stable-ID ordering, repeated byte-identical compilation,
   compiled-descriptor provenance, and fingerprint participation;
 - deterministic Prompt 44 release deltas for added, changed, deprecated, and removed named mapping
-  tools, including a descriptor collection absent in one artifact, while proving release-manifest
-  and release-metadata changes do not alter the ontology fingerprint;
+  tools, including active-to-deprecated and deprecated-to-removed transitions, a descriptor
+  collection absent in one artifact, and stable ID/version/provenance preservation, while proving
+  release-manifest and release-metadata changes do not alter the ontology fingerprint;
 - dynamic MCP discovery and registration of exactly one named closure per approved descriptor,
-  with no generic execution endpoint or mutable runtime discovery;
+  with no generic execution endpoint or mutable runtime discovery; deprecated tombstones must not
+  register, appear in discovery, or reach the evaluator;
 - an allowed qualified principal invoking a named tool, and an authenticated principal without
   `ontology:read` rejected through the existing authorization error before schema validation,
   evaluation, descriptor disclosure, or any I/O sentinel can run;
@@ -150,12 +163,15 @@ Narrative output.
 
 ## Acceptance criteria and verification
 
-- Only complete, reviewed, approved mapping-tool definitions that reference approved governed
-  instructions compile into stable, fingerprinted descriptors and one named MCP tool each.
+- Only complete, reviewed, approved, active mapping-tool definitions that reference approved
+  governed instructions compile into stable, fingerprinted callable descriptors and one named MCP
+  tool each; deprecated definitions retain only deterministic non-callable lifecycle/release
+  descriptors for release comparison.
 - The evaluator is a restricted, deterministic interpreter with schema-validated records and
   structured outcomes; it cannot execute generated code or perform I/O.
-- Tool discovery exposes the exact approved descriptor set, while review-required, deprecated,
-  incomplete, invalid, and unresolved definitions cannot become callable by omission or fallback.
+- Tool discovery exposes the exact active callable descriptor set, while review-required,
+  deprecated, incomplete, invalid, and unresolved definitions cannot become callable by omission or
+  fallback.
 - Every named mapping-tool invocation requires `ontology:read` on an authenticated
   `AuthorisedPrincipal` before it can disclose a descriptor, validate input, evaluate a mapping, or
   cause any side effect.
@@ -163,8 +179,9 @@ Narrative output.
   record or a canonical structured failure, leaving source retrieval and target calls to the
   conversational agent's separate system tools.
 - Compiled descriptors flow through Prompt 44's established release-manifest interface, producing
-  deterministic added, changed, deprecated, and removed named-tool deltas without changing the
-  ontology fingerprint for manifest-only changes.
+  deterministic added, changed, deprecated, and removed named-tool deltas, including
+  active-to-deprecated and deprecated-to-removed transitions, without changing the ontology
+  fingerprint for manifest-only changes.
 
 Run the repository's full check (currently `npm run check`, if still provided), focused compiler,
 schema-validation, mapping evaluator, MCP discovery/registration, determinism, failure-envelope,

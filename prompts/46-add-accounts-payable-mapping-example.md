@@ -61,10 +61,9 @@ Define target requiredness, identifier format, validation rules, amount and curr
 and idempotency behavior in the fixture and governed evidence. Require bounded synthetic values for
 every payment-instruction business field, including invoice reference, idempotency key,
 beneficiary/pay-site reference, amount, currency, and any required execution date. Do not include
-real bank or payment-rail details, a real endpoint, production payment data, credentials, access
-tokens, bank-routing details, personal data, secrets, payment details, or live business records.
-Compilation, tests, and runtime must not fetch either fixture, discover a catalog, or call an
-accounts-payable endpoint.
+a real endpoint, production payment data, credentials, access tokens, real or production
+bank/payment-rail details, personal data, secrets, or live business records. Compilation, tests,
+and runtime must not fetch either fixture, discover a catalog, or call an accounts-payable endpoint.
 
 Provide deterministic, in-memory synthetic registration-flow tests for both fixtures. A qualified
 user agent, using its own authorized access, reads the checked-in synthetic MCP catalog, extracts
@@ -94,13 +93,14 @@ delivery plane, and do not hand-edit generated ontology artifacts.
 
 Before a mapping tool can be approved or activated, create, review, and approve a deterministic,
 governed source-to-canonical normalization or equivalence mapping from the synthetic MCP Invoice
-entity and its input schema to Prompt 16's governed Brightflag Invoice entity (or another explicitly
-named canonical governed Invoice stable ID). Record its stable IDs, schema validation, reviewed
-field correspondence, provenance, lifecycle, and failure contract in governed source. This adapter
-is not inferred from structural similarity, source labels, or a matching score. Its output must be
-the canonical entity and schema that the later named mapping tool declares as its governed source.
-Stop if that canonical stable ID, its source correspondence, schema validation, or approval is
-missing or ambiguous.
+entity and its input schema to Prompt 16's governed Brightflag Invoice stable ID. Record both source
+and target stable IDs, schema validation, reviewed field correspondence, provenance, lifecycle, and
+failure contract in governed source. This adapter is not inferred from structural similarity, source
+labels, or a matching score. Its output must be that exact Brightflag Invoice entity and schema,
+which the later named mapping tool declares as its governed source. Stop if the exact Brightflag
+Invoice stable ID, its source correspondence, schema validation, or approval is missing or
+ambiguous. Another canonical source requires a separately reviewed mapping instruction and a
+distinct governed mapping-tool identity and MCP name before activation.
 
 Document and test the separate activation path: an engineer lead reviews the decision-bearing pull
 request; normal CI compiles and validates it; the pull request merges; and CI/CD deploys the
@@ -140,10 +140,11 @@ separately supplied named-mapping-tool operator instructions to add exactly this
 
 Its definition must reference the approved Brightflag-invoice-to-accounts-payable-payment-
 instruction mapping instruction, the canonical governed Invoice entity and schema produced by the
-approved synthetic-source adapter, target entity ID, reviewed schemas, stable mapping-tool ID,
-ontology fingerprint/source context, semantic version, provenance, and review record. The tool's
-governed source entity must exactly equal the canonical entity passed to it, never the raw synthetic
-MCP entity. Keep the definition governed data for Prompt 45's restricted evaluator; do not add
+approved synthetic-source adapter, specifically Prompt 16's Brightflag Invoice stable ID, target
+entity ID, reviewed schemas, stable mapping-tool ID, ontology fingerprint/source context, semantic
+version, provenance, and review record. The tool's governed source entity must exactly equal that
+Brightflag Invoice stable ID and the canonical entity passed to it, never the raw synthetic MCP
+entity. Keep the definition governed data for Prompt 45's restricted evaluator; do not add
 executable expressions, callbacks, imports, templates, generated code, generic execution, or
 dynamic source discovery.
 
@@ -168,7 +169,9 @@ Add canonical synthetic examples and focused tests for:
 
 Also test synthetic-source-to-canonical adapter success, source-schema mismatch, canonical-schema
 mismatch, ambiguous correspondence, and missing approved adapter. Each failure must stop before
-mapping-tool invocation and before any accounts-payable call.
+mapping-tool invocation and before any accounts-payable call. Assert that the adapter target, the
+mapping instruction source, the mapping-tool governed source, and the canonical record passed to
+the tool all use Prompt 16's exact Brightflag Invoice stable ID.
 
 Assert the exact deterministic output or structured failure for each. Prove no side effect or I/O
 can occur during compilation, tool discovery, or invocation.
@@ -207,9 +210,10 @@ call in this workflow test.
 - The exact named mapping tool is approved only after every payable-status, target-contract,
   identifier, amount/currency, idempotency, beneficiary-selection, and source-to-canonical entity
   mapping blocker is resolved; its current deployed delta is `added` or `changed` before use.
-- The pure mapping tool receives the approved canonical governed Invoice, deterministically maps
-  invoice **1234** to a schema-valid target payload or a canonical structured failure, uses
-  caller-provided lookup records, and has no I/O or side effect.
+- The adapter target, mapping-instruction source, mapping-tool governed source, and canonical input
+  record all use Prompt 16's exact Brightflag Invoice stable ID. The pure mapping tool receives that
+  canonical entity, deterministically maps invoice **1234** to a schema-valid target payload or a
+  canonical structured failure, uses caller-provided lookup records, and has no I/O or side effect.
 - The end-to-end fixture ends before an accounts-payable request; authorization, confirmation,
   idempotency, retries, and audit are explicit external user-agent/integration responsibilities.
 
