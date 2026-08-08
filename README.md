@@ -81,6 +81,7 @@ submit each implementation stage only after the previous stage has passed its ac
 47. [Add deployment release-change visibility](prompts/44-add-release-change-visibility.md)
 48. [Compile named mapping tools](prompts/45-compile-named-mapping-tools.md)
 49. [Add the accounts-payable mapping example](prompts/46-add-accounts-payable-mapping-example.md)
+50. [Independently audit the qualified-user workflow](prompts/47-audit-qualified-user-workflow.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -104,6 +105,30 @@ mode. It adds a Keycloak mode and, more to the point, the OAuth protected-resour
 challenge that let a conversational agent obtain a token for itself — without which a home-lab
 deployment is reachable only by clients that can be handed a token in a config file. Production
 remains Entra, unchanged. Run it after Prompt 30; it does not affect Prompt 31.
+
+Prompts 33–47 follow active Prompt 32b and form one ordered qualified-user contribution sequence.
+Prompt 33 plans without changing behavior. Prompts 34–36 add the isolated single-instance intake
+plane and workbench. Prompts 37–41 execute the first five build-time embedding stages from the
+existing Step 4 guide. Prompt 42 deliberately combines the guide's Prompt 6 assurance and Prompt 7
+documentation stages. Prompt 43 adds advisory coding-agent analysis, Prompt 44 adds deployed
+change visibility, Prompt 45 adds named pure mapping tools, Prompt 46 proves the
+invoice-to-payment example, and Prompt 47 audits the whole boundary independently. Intake remains
+disabled in multi-instance deployments until a later governed storage adapter is added.
+
+### Operational prompt templates
+
+Use these only after the prerequisite stage has completed and a human engineer has supplied the
+reviewed evidence named by the template:
+
+- [Register reviewed exported intake](prompts/templates/register-exported-intake.md) — after
+  Prompt 36's export and deterministic analysis.
+- [Resolve an intake mapping review](prompts/templates/resolve-intake-mapping-review.md) — after
+  Prompt 43 emits a bounded LLM analysis request.
+- [Apply a reviewed ontology-change proposal](prompts/templates/apply-ontology-change-proposal.md)
+  — after Prompts 35, 36, and 44 provide a reviewed export and deployed release context.
+- [Create or revise a named mapping tool](prompts/templates/create-named-mapping-tool.md) — after
+  Prompts 36, 43, 44, and 45 provide reviewed analysis, deployed context, and mapping-tool
+  contracts.
 
 Prompt 2 is a governance bootstrap. Commit it locally first, then explicitly publish and merge that
 installation before opening decision-bearing pull requests from later prompts. The maintenance
