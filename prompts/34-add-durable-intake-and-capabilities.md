@@ -26,9 +26,16 @@ Introduce provider-neutral capabilities named exactly:
 
 Define `Capability` and `AuthorisedPrincipal` so that a handler receives the already validated
 principal and can make an explicit capability decision. Authentication remains responsible for token
-validation; authorization follows token validation. Every handler that this stage touches must check
-the appropriate capability after validation. Tool discovery, route presence, or a successfully
-validated token must never be treated as authorization.
+validation; authorization follows token validation. Tool discovery, route presence, or a
+successfully validated token must never be treated as authorization.
+
+Assign and enforce the capabilities now for every current MCP handler. Existing ontology query,
+description, list, and resource operations require `ontology:read`. Existing stateless
+proposal-preparation tools require `ontology:propose`. Each handler must make that capability check
+after token validation and before executing its operation. Do not change the handler's behavior
+beyond this authorization requirement. `ontology:intake:review` has no handler until later stages,
+but its configured claim mapping must be parsed and validated now so later handlers cannot invent a
+second authorization scheme.
 
 Preserve every existing authentication mode and the Prompt 32b distinction between invalid tokens
 and unavailable signing keys. Intake is an additional capability, not a change to which credentials
@@ -38,10 +45,8 @@ claim-to-capability mapping. When intake is enabled, absent, malformed, or non-m
 configuration must fail closed at startup; do not infer capability names from unconfigured roles,
 scopes, or claims.
 
-Do not use a capability check to silently broaden existing protected behavior. If an existing
-handler has no established capability assignment, preserve its current authorization behavior and
-document the deferred assignment rather than guessing. This stage establishes the contracts and
-enforcement needed by later intake handlers; it adds no MCP tools.
+This stage establishes the contracts and enforcement needed by later intake handlers; it adds no MCP
+tools.
 
 ## Durable intake contract
 
@@ -100,6 +105,11 @@ shared durable adapter is deliberately added and verified.
 Add focused automated tests for:
 
 - claim-to-capability mapping and missing capabilities;
+- the explicit `ontology:read` assignment for every current ontology query, description, list, and
+  resource handler, and the explicit `ontology:propose` assignment for every current stateless
+  proposal-preparation handler;
+- post-token-validation capability checks that refuse a validated principal lacking the required
+  capability before the current handler executes;
 - disabled mode and refusal to enable intake in `none` or `static` mode;
 - SQLite initialization and restart persistence;
 - atomic receipt creation and idempotent identical replay;
@@ -114,8 +124,10 @@ assertions. No MCP tool is added in this stage, so the registered MCP surface mu
 
 ## Acceptance criteria
 
-- The service has the exact three provider-neutral capability names and checks them only after token
-  validation.
+- The service has the exact three provider-neutral capability names. Every current ontology query,
+  description, list, and resource handler enforces `ontology:read`; every current stateless
+  proposal-preparation handler enforces `ontology:propose`; and all checks happen after token
+  validation. `ontology:intake:review` mapping is validated now for its later handler.
 - Intake is disabled by default, cannot run in `none` or `static` mode, and fails closed without
   explicit Keycloak or Entra claim-to-capability configuration.
 - SQLite stores canonical JSON and SHA-256 digests, atomically creates durable receipts, preserves
