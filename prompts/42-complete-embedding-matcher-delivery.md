@@ -4,8 +4,9 @@ Implement only the evidence visibility, documentation, and final acceptance work
 embedding matcher in the separate `OntologyService` repository. Prompts 37–41 have already added
 canonical embedding text and cache primitives, disabled-by-default configuration and evidence
 contracts, the explicit refresh command, governed matcher fusion, and deterministic compiler cache
-integration. This prompt completes Prompt 6, "Adversarial determinism and boundary tests", and
-Prompt 7, "Documentation and the narrative entry", from the current `docs/step4.md` guide.
+integration. This prompt deliberately combines Prompt 6, "Adversarial determinism and boundary
+tests", and Prompt 7, "Documentation and the narrative entry", from the current `docs/step4.md`
+guide into one final delivery stage.
 
 Read Prompts 37–41, the current guide, `AGENTS.md`, Project Narrative rules, the MCP server and
 mapping-review resource/tool implementation, generated-artifact loading, `docs/owl-profile.md`,
@@ -22,27 +23,38 @@ It must not hand-edit `ontology/compiled/` or generated Project Narrative output
 ## Existing mapping-review evidence only
 
 Expose the compilation-level `embeddingProvenance` and a selected candidate's complete typed
-`embeddingEvidence` through the existing mapping-review response(s): the established mapping-review
-MCP tool and/or resource must faithfully project the already compiled review data. Use the existing
-mapping-review identifiers, result shape, loading path, authorization, pagination or limits, and
-error conventions; extend that response only as needed to make stored evidence visible.
+`embeddingEvidence` through both existing mapping-review surfaces: the
+`ontology_list_mapping_reviews` MCP tool and the `ontology://mapping-review` resource. Both must
+faithfully project already compiled review data and return the same evidence fields for the same
+records. Do not replace either surface or add another mapping-review identifier.
+
+Define one deterministic, bounded review projection shared by both surfaces. Sort compiled records
+by stable ID before selecting records. The tool accepts an optional `limit` integer from 1 through
+100, defaulting to 100. The resource takes no new input and returns the same first 100 records in
+that stable-ID order. Both responses must include the same `{ total, returned, truncated }` metadata
+and the same stored evidence fields for every returned record. `total` is the full matching-review
+count, `returned` is the selected-record count, and `truncated` is true exactly when `returned` is
+less than `total`. Use the existing authorization, generated-artifact loading, and error conventions
+outside this bounded projection.
 
 - Do not add an embedding creation, refresh, query, search, similarity, or free-form semantic MCP
   tool, resource, endpoint, CLI command, or runtime model client.
 - Do not load a cache, calculate a vector or score, read credentials/environment settings, resolve
   an endpoint, or reach a network service at runtime or during MCP registration or request handling.
-- Return only bounded stored review evidence for the requested/generated mapping review. Preserve
-  existing candidate and response limits; do not expose cache vectors, arbitrary cache entries, or
-  an unbounded artifact dump.
+- Return only bounded stored review evidence through the specified shared projection. Do not expose
+  cache vectors, arbitrary cache entries, or an unbounded artifact dump.
 - Keep the MCP tool/resource read-only and idempotent. The response must neither refresh nor repair
   a cache, mutate artifacts, mutate review state, write files, or create a model-side effect.
 - Omit embedding provenance and candidate evidence in disabled and lexical-fallback cases rather
   than inventing empty values. Preserve manual-decision precedence and do not imply that evidence is
   OWL inference or an automatic acceptance decision.
 
-Add in-memory MCP and runtime tests that prove enabled compiled evidence is visible through the
-existing bounded mapping-review surface, disabled output remains compatible without placeholders,
-and repeated calls are equal and cause no writes, cache reads, environment/credential reads,
+Add in-memory MCP and runtime tests that prove both named surfaces expose identical enabled compiled
+evidence through the shared bounded projection. Cover the tool's default, minimum, maximum, and
+invalid limits; the 100-record cap; stable-ID selection; exact `{ total, returned, truncated }`
+metadata; resource selection of the same first 100 records; and identical evidence fields returned
+by both surfaces. Also prove disabled output remains compatible without placeholders, and
+repeated calls are equal and cause no writes, cache reads, environment/credential reads,
 network/model-client construction, refresh dispatch, or model execution. Install sentinels after
 fixture setup so any prohibited operation fails immediately.
 
@@ -103,9 +115,11 @@ mandatory. Name tests so each scenario can be identified in command output.
 5. **Fingerprint change:** a changed used vector, text hash, model identity, dimension, weight, or
    maximum semantic-candidate setting changes the digest/fingerprint and makes `ontology:check`
    report stale artifacts; an unused valid entry does not.
-6. **MCP evidence:** existing bounded mapping-review responses expose stored enabled provenance and
-   selected-candidate evidence, omit disabled/fallback placeholders, and remain read-only and
-   idempotent.
+6. **MCP evidence:** `ontology_list_mapping_reviews` and `ontology://mapping-review` expose the
+   same stored enabled provenance and selected-candidate evidence through identical bounded records.
+   The tool enforces optional limits from 1 through 100, default 100; the resource returns the same
+   first 100 stable-ID records. Both include exact `{ total, returned, truncated }` metadata, omit
+   disabled/fallback placeholders, and remain read-only and idempotent.
 7. **Deterministic artifacts:** two equivalent enabled compiles produce byte-identical JSON, OWL,
    SHACL, mapping-review, and fingerprint output; reordered cache entries do not change them.
 8. **Manual precedence:** manual mappings override automatic rank, disposition, and evidence; no
@@ -121,8 +135,9 @@ matrix.
 
 ## Acceptance criteria and verification
 
-- Existing bounded mapping-review MCP responses expose only already compiled embedding evidence;
-  there is no new model-executing or free-form semantic interface.
+- `ontology_list_mapping_reviews` and `ontology://mapping-review` expose only already compiled
+  embedding evidence through the same deterministic bounded projection and metadata; there is no
+  new model-executing or free-form semantic interface.
 - Runtime and MCP delivery are read-only, idempotent, and offline; compilation remains the only
   consumer of a committed cache, and explicit refresh remains the only network-capable route.
 - Documentation covers disabled default, refresh, cache review/commit, upgrades, costs, credentials,
