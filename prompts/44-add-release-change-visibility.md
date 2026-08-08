@@ -11,10 +11,11 @@ part of the ontology or expose pending intake information.
 Read Prompts 33–35 and 43, the approved qualified-user intake plan, `AGENTS.md`, Project Narrative
 rules, compiled ontology and fingerprint code, CI/CD deployment configuration, MCP registration and
 resource conventions, capability authorization, the two intake submission handlers, canonical JSON
-and digest helpers, and their tests. Also read the Builder template at
-`prompts/templates/apply-ontology-change-proposal.md`, which this stage adds. Adapt names and paths
-to the target repository as it exists. Do not assume a later prompt has added named mapping tools,
-the accounts-payable example, a release-history service, or a semantic-query surface.
+and digest helpers, and their tests. An engineer may separately supply the reviewed
+ontology-change operator-template contents when invoking that later workflow; it is not a
+target-repository artifact and this stage must not read or create it. Adapt names and paths to the
+target repository as it exists. Do not assume a later prompt has added named mapping tools, the
+accounts-payable example, a release-history service, or a semantic-query surface.
 
 ## Deterministic release-manifest inputs and classification
 
@@ -51,6 +52,13 @@ governed classes:
 - semantic mappings;
 - mapping definitions; and
 - named mapping tools.
+
+Define the named-mapping-tool class now as a forward-compatible optional compiled descriptor
+collection with a canonical stable-ID representation. Before Prompt 45, an artifact with no explicit
+descriptor collection represents the empty named-mapping-tool class. If either verified compiled
+artifact explicitly contains descriptors, classify their union exactly like every other class; do
+not suppress the class because the opposite artifact has no collection. Prompt 45 must later supply
+those descriptors through this interface, rather than replace the manifest schema or generator.
 
 For every class, form the union of stable IDs in the previous and candidate artifacts. Emit a record
 for a candidate-only ID as `added`, a previous-only ID as `removed`, and an ID present in both when
@@ -118,8 +126,9 @@ retrieving, querying, updating, deleting, exporting, or disposing of pending int
 Add focused, deterministic tests covering:
 
 - every governed class and each added, changed, deprecated, and removed change class, including a
-  previous-only named mapping tool emitted as removed, compatibility-impact classification, and
-  governed provenance;
+  previous-only named mapping tool emitted as removed; an empty absent-descriptor class; explicit
+  descriptor collections in either artifact; and added, changed, deprecated, and removed named
+  tools with compatibility-impact classification and governed provenance;
 - stable sorting, documented tie-breakers, canonical serialization, and repeated byte-identical
   manifest generation from equivalent explicit inputs;
 - exact top-level release ID, deployment timestamp, previous fingerprint, and current/candidate
@@ -151,8 +160,9 @@ Narrative output.
   candidate compiled artifacts plus explicit release metadata, and it fails closed without a
   baseline and provenance.
 - The manifest includes verified release and comparison fingerprint fields, and classifies stable-ID
-  changes, compatibility impact, and governed provenance across every specified class without
-  changing the ontology fingerprint.
+  changes, compatibility impact, and governed provenance across every specified class, including
+  the forward-compatible named-mapping-tool descriptor interface, without changing the ontology
+  fingerprint.
 - `ontology_get_release_changes` and `ontology://release/current` expose the same bounded,
   authorized current-release projection; they neither promise history nor disclose intake content.
 - An authorized qualified user can use the current delta and fingerprint to submit a further

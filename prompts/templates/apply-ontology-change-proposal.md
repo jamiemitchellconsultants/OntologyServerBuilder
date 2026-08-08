@@ -62,7 +62,25 @@ release-manifest changes arise only from the reviewed source and manifest change
 pending intake data appears in delivery artifacts. Do not change an intake disposition, merge,
 deploy, publish a release, or claim that this proposal automatically changed the ontology.
 
-If the work warrants a pull request, follow the repository's Project Narrative rules, including the
-`narrative-required` label and non-empty Narrative Context, Decision, and Consequences sections in
-the pull-request body before merge. The separate Narrative-only pull request must not carry that
-label.
+## Pull-request governance
+
+For every decision-bearing target-repository pull request, apply `narrative-required` and include
+these non-empty pull-request-body sections in the same action before merge:
+
+```markdown
+## Narrative Context
+
+<non-empty context>
+
+## Narrative Decision
+
+<non-empty decision>
+
+## Narrative Consequences
+
+<non-empty consequences>
+```
+
+Never edit, hand-edit, hand-merge, or otherwise author generated `Narrative.md`; use a reviewed
+fragment and the target repository's generation process. A Narrative-only pull request must not
+carry `narrative-required`.

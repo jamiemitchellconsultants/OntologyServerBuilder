@@ -15,10 +15,11 @@ mapping, open a pull request, merge, or deploy.
 Read Prompts 33–36 and 37–42; the approved qualified-user intake plan; `AGENTS.md`; Project
 Narrative rules; the `IntakeStore`, engineer export and analysis CLI, offline adapter, deterministic
 matcher, compiled embedding evidence, canonical JSON and digest helpers, and their tests. Also read
-the Builder template at `prompts/templates/resolve-intake-mapping-review.md`, which this stage
-adds. Adapt names and paths to the target repository as it exists. Do not assume a later prompt has
-added release manifests, deployed-change visibility, mapping tools, live model integration, or a
-semantic-query surface.
+the locally available operational instructions supplied with this task, if the engineer is
+invoking the separate response-analysis workflow. Those instructions are an operator input, never a
+target-repository artifact. Adapt names and paths to the target repository as it exists. Do not
+assume a later prompt has added release manifests, deployed-change visibility, mapping tools, live
+model integration, or a semantic-query surface.
 
 ## Bounded request package
 
@@ -49,8 +50,10 @@ exact canonical request bytes. Reordered equivalent inputs must produce byte-ide
 bytes and digest.
 
 The service must not execute this request, construct a model client, resolve an endpoint, read a
-credential, or call a network service. An engineer supplies the request to a coding agent manually
-using the Builder template; this target-repository command never automates that hand-off.
+credential, or call a network service. An engineer supplies the request and separately supplied
+operator instructions to a coding agent manually; this target-repository command never automates
+that hand-off. If those operator instructions are absent, the engineer workflow cannot be invoked;
+the service still emits and validates its self-contained request and response contracts.
 
 ## Advisory response contract
 

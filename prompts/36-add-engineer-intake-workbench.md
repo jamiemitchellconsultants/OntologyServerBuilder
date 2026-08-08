@@ -7,8 +7,9 @@ the engineer-only intake workbench in the separate `OntologyService` repository.
 This stage lets an authorised engineer list, export, analyse, and record review dispositions for
 durable intake evidence. It does not make a submission, a candidate, or a disposition into an
 ontology fact; it does not merge or deploy anything; and it does not alter the delivery plane. A
-later, human-reviewed registration task uses the exported evidence and the reusable template at
-`prompts/templates/register-exported-intake.md`.
+later, human-reviewed registration task uses the exported evidence. When an engineer invokes that
+separate workflow, they must supply the reviewed operator-template contents alongside the coding
+task; the target repository neither contains nor reads that template.
 
 The original source artifact is delivered separately to the engineer. Only the CLI receives its
 explicit local path. Never store that path in an intake record, export, event, analysis report, log,

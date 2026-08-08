@@ -18,11 +18,13 @@ Read Prompts 16, 17, 33–45, the approved qualified-user intake plan, `AGENTS.m
 Narrative rules, the registered Brightflag source and compiled artifacts, governed mapping
 instructions, intake submission and workbench code, release-manifest code, mapping-tool compiler
 and evaluator, MCP authorization conventions, canonical JSON/schema helpers, and their tests.
-Read the Builder templates for registration, review resolution, ontology-change application, and
-named mapping tools. Adapt paths and identifiers to the target repository as it exists. Do not
-assume a production accounts-payable system, a live endpoint, or that an intake proposal is an
-approved ontology source. Prompt 16 supplies governed Brightflag OpenAPI source concepts only;
-it neither supplies nor implies a Brightflag MCP export, vendor authenticity, or live discovery.
+When an engineer invokes registration, mapping-review, ontology-change, or named-tool workflows,
+they must supply the applicable reviewed operator-template contents alongside that task. Those are
+separate operator inputs, not target-repository artifacts, and this stage must neither read nor
+create them. Adapt paths and identifiers to the target repository as it exists. Do not assume a
+production accounts-payable system, a live endpoint, or that an intake proposal is an approved
+ontology source. Prompt 16 supplies governed Brightflag OpenAPI source concepts only; it neither
+supplies nor implies a Brightflag MCP export, vendor authenticity, or live discovery.
 
 ## Synthetic source fixtures and qualified-user registration
 
@@ -38,7 +40,8 @@ in-memory “pay invoice 1234” workflow. Define a synthetic server identity an
 explicit tool name for retrieving one invoice; bounded input and output JSON Schemas; an `Invoice`
 entity with stable identifiers, invoice ID, payable status, approved gross total, currency, vendor
 and pay-site-reference fields; and bounded example metadata needed by Prompt 33's registration
-template. Use a source kind of `mcp`, its own extractor/provenance, and the catalog's own digest.
+submission contract. Use a source kind of `mcp`, its own extractor/provenance, and the catalog's
+own digest.
 It may reuse governed field concepts and stable references from Prompt 16 solely for this
 demonstration; it is a new synthetic artifact, not an exported Brightflag catalog.
 
@@ -55,10 +58,13 @@ least:
 - requested execution date if the synthetic target requires one.
 
 Define target requiredness, identifier format, validation rules, amount and currency constraints,
-and idempotency behavior in the fixture and governed evidence. Do not include a real endpoint,
-credentials, access token, bank-routing details, personal data, payment details, or live business
-records. Compilation, tests, and runtime must not fetch either fixture, discover a catalog, or
-call an accounts-payable endpoint.
+and idempotency behavior in the fixture and governed evidence. Require bounded synthetic values for
+every payment-instruction business field, including invoice reference, idempotency key,
+beneficiary/pay-site reference, amount, currency, and any required execution date. Do not include
+real bank or payment-rail details, a real endpoint, production payment data, credentials, access
+tokens, bank-routing details, personal data, secrets, payment details, or live business records.
+Compilation, tests, and runtime must not fetch either fixture, discover a catalog, or call an
+accounts-payable endpoint.
 
 Provide deterministic, in-memory synthetic registration-flow tests for both fixtures. A qualified
 user agent, using its own authorized access, reads the checked-in synthetic MCP catalog, extracts
@@ -80,11 +86,21 @@ digest, and runs the deterministic, embedding, and bounded LLM-advisory workbenc
 parser discrepancies, candidate evidence, semantic gaps, and disagreements visible; no matching
 pass, coding agent, or intake disposition may accept ontology facts or a mapping automatically.
 
-Require the engineer to use the registration and review templates to make a normal, reviewable
-ontology-source change. The change must add only facts supported by the synthetic source and
-reviewed evidence, including an accounts-payable payment-instruction entity and its required
-business attributes. Do not make pending intake content visible through the delivery plane, and do
-not hand-edit generated ontology artifacts.
+Require the engineer to use separately supplied registration and review operator instructions to
+make a normal, reviewable ontology-source change. The change must add only facts supported by the
+synthetic source and reviewed evidence, including an accounts-payable payment-instruction entity
+and its required business attributes. Do not make pending intake content visible through the
+delivery plane, and do not hand-edit generated ontology artifacts.
+
+Before a mapping tool can be approved or activated, create, review, and approve a deterministic,
+governed source-to-canonical normalization or equivalence mapping from the synthetic MCP Invoice
+entity and its input schema to Prompt 16's governed Brightflag Invoice entity (or another explicitly
+named canonical governed Invoice stable ID). Record its stable IDs, schema validation, reviewed
+field correspondence, provenance, lifecycle, and failure contract in governed source. This adapter
+is not inferred from structural similarity, source labels, or a matching score. Its output must be
+the canonical entity and schema that the later named mapping tool declares as its governed source.
+Stop if that canonical stable ID, its source correspondence, schema validation, or approval is
+missing or ambiguous.
 
 Document and test the separate activation path: an engineer lead reviews the decision-bearing pull
 request; normal CI compiles and validates it; the pull request merges; and CI/CD deploys the
@@ -92,7 +108,9 @@ compiled artifact and release manifest. Only then can `ontology_get_release_chan
 `ontology://release/current`, authorized by `ontology:read`, show the new deployed systems and
 semantic changes to a qualified user. A receipt, an engineer export, an analysis report, an
 accepted intake disposition, or an unmerged pull request is not deployment and cannot expose a
-new runtime entity or tool.
+new runtime entity or tool. Before any runtime example invokes the named mapping tool, assert that
+the current deployed release delta classifies that tool as `added` or `changed`, as appropriate for
+the compared deployment; an absent delta or another change kind blocks activation.
 
 ## Resolve mapping blockers before approving the mapping
 
@@ -116,21 +134,23 @@ review evidence is unresolved. Report the exact gap instead.
 ## Reviewed named mapping tool and deterministic examples
 
 After all blockers are resolved and normal ontology changes have been reviewed and deployed, use
-the named-mapping-tool template to add exactly this approved MCP tool:
+separately supplied named-mapping-tool operator instructions to add exactly this approved MCP tool:
 
 `map_brightflag_invoice_to_accounts_payable_payment_instruction`
 
 Its definition must reference the approved Brightflag-invoice-to-accounts-payable-payment-
-instruction mapping instruction, source and target entity IDs, reviewed schemas, stable mapping-
-tool ID, ontology fingerprint/source context, semantic version, provenance, and review record.
-Keep the definition governed data for Prompt 45's restricted evaluator; do not add executable
-expressions, callbacks, imports, templates, generated code, generic execution, or dynamic source
-discovery.
+instruction mapping instruction, the canonical governed Invoice entity and schema produced by the
+approved synthetic-source adapter, target entity ID, reviewed schemas, stable mapping-tool ID,
+ontology fingerprint/source context, semantic version, provenance, and review record. The tool's
+governed source entity must exactly equal the canonical entity passed to it, never the raw synthetic
+MCP entity. Keep the definition governed data for Prompt 45's restricted evaluator; do not add
+executable expressions, callbacks, imports, templates, generated code, generic execution, or
+dynamic source discovery.
 
-The tool accepts one source invoice and named supporting lookup records supplied by the caller.
-It maps the invoice ID deterministically to the target invoice reference and idempotency key,
-approved gross total to amount, validated invoice currency code to currency, and the exactly-one
-reviewed pay-site reference to beneficiary. It returns Prompt 45's deterministic provenance
+The tool accepts one canonical governed Invoice and named supporting lookup records supplied by the
+caller. It maps the invoice ID deterministically to the target invoice reference and idempotency
+key, approved gross total to amount, validated invoice currency code to currency, and the exactly-
+one reviewed pay-site reference to beneficiary. It returns Prompt 45's deterministic provenance
 envelope and either a schema-valid target record or the appropriate structured failure. It is pure,
 offline, deterministic, idempotent, and side-effect free: it does not retrieve invoice data, query
 for pay sites, call an API, read mutable intake/release state, or access filesystem, network,
@@ -146,6 +166,10 @@ Add canonical synthetic examples and focused tests for:
 - target validation failure where applicable; and
 - semantically equivalent inputs with reordered object keys.
 
+Also test synthetic-source-to-canonical adapter success, source-schema mismatch, canonical-schema
+mismatch, ambiguous correspondence, and missing approved adapter. Each failure must stop before
+mapping-tool invocation and before any accounts-payable call.
+
 Assert the exact deterministic output or structured failure for each. Prove no side effect or I/O
 can occur during compilation, tool discovery, or invocation.
 
@@ -153,11 +177,14 @@ can occur during compilation, tool discovery, or invocation.
 
 Add an in-memory, offline assurance test for the instruction “pay invoice 1234”. The qualified
 user agent must first authenticate with `ontology:read` and retain its own separate authorization
-to the synthetic invoice MCP fixture and target accounts-payable API. Assert that the catalog's
-bounded get-invoice tool schema and fixture metadata drive retrieval of invoice **1234** and its
-supporting pay-site records through the invoice-system fixture, then supply those records to
-`map_brightflag_invoice_to_accounts_payable_payment_instruction`, and validates the returned
-synthetic payment-instruction payload against the accounts-payable request schema.
+to the synthetic invoice MCP fixture and target accounts-payable API. Assert this exact runtime
+order: fetch synthetic invoice **1234** and supporting pay-site records through the invoice-system
+fixture; validate the raw synthetic source record against the catalog's bounded source schema;
+invoke the approved pure deterministic source-to-canonical Invoice adapter; validate the resulting
+canonical Invoice against its governed schema; then invoke
+`map_brightflag_invoice_to_accounts_payable_payment_instruction` with that canonical record and
+the lookup records. Validate the returned synthetic payment-instruction payload against the
+accounts-payable request schema. Do not infer structural equivalence at any point.
 
 The test stops there. It must assert that an accounts-payable HTTP invocation is a separate
 user-agent responsibility, not an effect of mapping. If a future user-agent flow submits the
@@ -178,9 +205,11 @@ call in this workflow test.
 - Qualified-user registration stays in the isolated intake plane; engineer analysis, review, CI/CD,
   and deployment remain the only route to delivery-plane ontology facts and mapping tools.
 - The exact named mapping tool is approved only after every payable-status, target-contract,
-  identifier, amount/currency, idempotency, and beneficiary-selection blocker is resolved.
-- The pure mapping tool deterministically maps invoice **1234** to a schema-valid target payload
-  or a canonical structured failure, with caller-provided lookup records and no I/O or side effect.
+  identifier, amount/currency, idempotency, beneficiary-selection, and source-to-canonical entity
+  mapping blocker is resolved; its current deployed delta is `added` or `changed` before use.
+- The pure mapping tool receives the approved canonical governed Invoice, deterministically maps
+  invoice **1234** to a schema-valid target payload or a canonical structured failure, uses
+  caller-provided lookup records, and has no I/O or side effect.
 - The end-to-end fixture ends before an accounts-payable request; authorization, confirmation,
   idempotency, retries, and audit are explicit external user-agent/integration responsibilities.
 

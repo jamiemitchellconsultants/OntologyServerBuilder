@@ -47,5 +47,25 @@ Verify that compiled output changes only as explained by the reviewed source and
 Do not merge, deploy, change release configuration, or claim that the intake itself registered a
 system or accepted a semantic mapping.
 
-If the work warrants a pull request, follow the repository's Project Narrative rules, including the
-required label and non-empty Narrative Context, Decision, and Consequences sections before merge.
+## Pull-request governance
+
+For every decision-bearing target-repository pull request, apply `narrative-required` and include
+these non-empty pull-request-body sections in the same action before merge:
+
+```markdown
+## Narrative Context
+
+<non-empty context>
+
+## Narrative Decision
+
+<non-empty decision>
+
+## Narrative Consequences
+
+<non-empty consequences>
+```
+
+Never edit, hand-edit, hand-merge, or otherwise author generated `Narrative.md`; use a reviewed
+fragment and the target repository's generation process. A Narrative-only pull request must not
+carry `narrative-required`.

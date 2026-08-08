@@ -118,7 +118,10 @@ disabled in multi-instance deployments until a later governed storage adapter is
 ### Operational prompt templates
 
 Use these only after the prerequisite stage has completed and a human engineer has supplied the
-reviewed evidence named by the template:
+reviewed evidence named by the template. These templates are Builder-maintained operator inputs:
+when an engineer starts the corresponding coding-agent task in `OntologyService`, supply the full
+template contents alongside that task. Do not copy a template into `OntologyService` or expect a
+Builder path to exist there.
 
 - [Register reviewed exported intake](prompts/templates/register-exported-intake.md) — after
   Prompt 36's export and deterministic analysis.

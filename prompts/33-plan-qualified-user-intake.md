@@ -15,8 +15,8 @@ and 30–32b. It produces the architecture and migration plan that Prompts 34–
 Read the current architecture, proposal workflows, authentication, deployment, matcher, compiler,
 mapping instructions, MCP surface, tests, and Project Narrative rules. In particular, establish
 what the service actually does today and distinguish it from the intended qualified-user workflow.
-Read the approved Builder design specification for this sequence before deciding the plan's
-boundaries.
+Use the requirements in this prompt as the approved sequence boundary; do not depend on a document
+outside the target repository being present.
 
 ## Plan document
 

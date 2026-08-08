@@ -11,10 +11,11 @@ recommendation executable.
 Read Prompts 17, 33–36, 43, and 44; the approved qualified-user intake plan; `AGENTS.md`; Project
 Narrative rules; governed mapping instructions; ontology source and compiler code; compiled schema
 and fingerprint code; MCP registration, authorization, and resource conventions; canonical JSON
-and schema-validation helpers; and their tests. Read
-`prompts/templates/create-named-mapping-tool.md`, which this stage adds. Adapt names and paths to
-the target repository as it exists. Do not assume Prompt 46 has registered an accounts-payable
-system or approved an invoice-to-payment mapping.
+and schema-validation helpers; and their tests. An engineer may separately supply the reviewed
+named-mapping-tool operator-template contents when invoking a governed definition change; it is not
+a target-repository artifact and this stage must not read or create it. Adapt names and paths to the
+target repository as it exists. Do not assume Prompt 46 has registered an accounts-payable system or
+approved an invoice-to-payment mapping.
 
 ## Governed mapping-tool definitions
 
@@ -61,6 +62,14 @@ descriptor must retain the mapping-tool ID, stable MCP name, version, source and
 identity, input shape, failure contract, review provenance, and enough governed evidence for
 runtime provenance. Repeated compilation of equivalent reordered source objects must produce
 byte-identical descriptors and fingerprint inputs. Never hand-edit compiled artifacts.
+
+Integrate descriptors with Prompt 44's existing release-manifest generator and its optional,
+canonical named-mapping-tool descriptor collection. Do not replace the manifest schema, generator,
+or its forward-compatible empty-class rule. The candidate artifact must expose the stable-ID-sorted
+compiled descriptors through that interface, so the union-based release classifier emits added,
+changed, deprecated, and removed named-tool records when either artifact has descriptors. Mapping
+descriptors remain part of the ontology fingerprint according to the existing conventions; the
+release manifest and release metadata remain non-participating delivery metadata.
 
 At startup, load only validated compiled descriptors. Register exactly one separately named MCP
 tool closure for each descriptor using its stable MCP name. Tool discovery must therefore show only
@@ -117,6 +126,9 @@ Add focused, offline tests covering:
   actionable failure for a definition falsely claiming approval;
 - stable MCP name collision rejection, stable-ID ordering, repeated byte-identical compilation,
   compiled-descriptor provenance, and fingerprint participation;
+- deterministic Prompt 44 release deltas for added, changed, deprecated, and removed named mapping
+  tools, including a descriptor collection absent in one artifact, while proving release-manifest
+  and release-metadata changes do not alter the ontology fingerprint;
 - dynamic MCP discovery and registration of exactly one named closure per approved descriptor,
   with no generic execution endpoint or mutable runtime discovery;
 - an allowed qualified principal invoking a named tool, and an authenticated principal without
@@ -150,6 +162,9 @@ Narrative output.
 - Mapping envelopes provide deterministic version and ontology provenance and either a valid target
   record or a canonical structured failure, leaving source retrieval and target calls to the
   conversational agent's separate system tools.
+- Compiled descriptors flow through Prompt 44's established release-manifest interface, producing
+  deterministic added, changed, deprecated, and removed named-tool deltas without changing the
+  ontology fingerprint for manifest-only changes.
 
 Run the repository's full check (currently `npm run check`, if still provided), focused compiler,
 schema-validation, mapping evaluator, MCP discovery/registration, determinism, failure-envelope,

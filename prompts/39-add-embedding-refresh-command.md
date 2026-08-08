@@ -22,11 +22,12 @@ it or refresh implicitly.
 The command must require explicit, validated refresh settings: the endpoint, the name of the
 environment variable containing the credential, a positive bounded timeout, and a positive bounded
 batch size. Keep these settings separate from the model identity in Prompt 38: model ID, version,
-and dimension remain authoritative configuration, while the credential value is read only at
-command execution through its supplied environment-variable name. Endpoint, credential name,
-timeout, and batch size may be explicit command options or validated non-secret refresh
-configuration, according to existing repository conventions. Do not supply a hidden provider
-default, infer a credential name, or accept an empty setting.
+dimension, and `embedding.cachePath` remain authoritative configuration; the credential value is
+read only at command execution through its supplied environment-variable name. `embedding.cachePath`
+is the authoritative path for every cache read and atomic replacement in this command. Endpoint,
+credential name, timeout, and batch size may be explicit command options or validated non-secret
+refresh configuration, according to existing repository conventions. Do not supply a hidden
+provider default, infer a credential name, or accept an empty setting.
 
 Use an `EmbeddingClient` interface and inject it into refresh orchestration tests. Keep the
 enterprise HTTP implementation in a module reachable only from the `embed` dispatch path; use a
