@@ -28,7 +28,7 @@ following decisions explicit:
 2. Two-plane architecture and dependency diagram.
 3. Capability matrix for read, propose, and intake review.
 4. Immutable submission and append-only event schemas.
-5. Single-instance SQLite baseline and disabled-by-default migration.
+5. S3-backed intake baseline and disabled-by-default migration.
 6. Engineer export and offline analysis flow.
 7. Deterministic, embedding, and LLM evidence boundaries.
 8. Release-manifest contract.
@@ -36,9 +36,10 @@ following decisions explicit:
 10. Prompt 34–47 file-impact plan, rollback points, and open decisions.
 
 The plan must reconcile Prompt 30's no-volume deployment with Prompt 31's multi-instance AWS
-deployment. A later intake volume is justified only for a single instance, and intake remains
-disabled where a shared durable adapter is unavailable. Do not imply that SQLite is a
-multi-instance store or that deployment may enable intake without its required durable storage.
+deployment. Because the intake adapter is S3-compatible object storage rather than a local embedded
+database, a durable intake bucket may be provisioned for either baseline; intake still stays
+disabled until that bucket, its access scope, and its monitoring are deliberately configured and
+verified. Do not imply that deployment may enable intake without its required durable storage.
 
 The plan must preserve the current compiler-owned generated-artifact boundary, the read-only
 delivery plane, and the rule that qualified-user submissions remain review-required evidence until
