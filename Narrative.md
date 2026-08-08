@@ -22,6 +22,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [11](#entry-add-prompt-32a-deploy-keycloak-mode-on-the-home-lab) | 2026-08-07 | Add prompt 32a: deploy keycloak mode on the home lab | product | Add a separate prompt rather than amend Prompt 32. |
 | [12](#entry-withdraw-prompt-32a-add-32b-for-jwks-retrieval-failures) | 2026-08-07 | Withdraw prompt 32a; add 32b for JWKS retrieval failures | product | Withdraw 32a by supersession rather than deletion, and replace it with a prompt for a defect that is real in the deployment that actually exists. |
 | [13](#entry-add-qualified-user-ontology-intake-workflow-prompts) | 2026-08-08 | Add qualified-user ontology intake workflow prompts | product | Add a 15-stage Builder sequence that separates a mutable, capability-gated intake plane from the immutable delivery plane. Submitted normalized definitions and change proposals remain outside ontology compilation. |
+| [14](#entry-track-qualified-user-intake-implementation-plan) | 2026-08-08 | Track qualified-user intake implementation plan | product | Track the qualified-user ontology intake implementation plan under `docs/superpowers/plans/` as a historical and reusable engineering artifact. |
 
 ---
 
@@ -563,3 +564,23 @@ Add a 15-stage Builder sequence that separates a mutable, capability-gated intak
 ## Consequences
 
 Qualified users gain durable submission receipts, deployed-release visibility, and access to approved mapping tools, but cannot retrieve pending submissions or apply ontology changes automatically. Engineers retain responsibility for evidence review, prompt execution, pull requests, deployment, and mapping approval. The initial SQLite intake store is explicitly single-instance; multi-instance deployment requires a later governed storage adapter. Runtime ontology and mapping operations remain offline from model providers and source-definition retrieval.
+
+---
+
+<a id="entry-track-qualified-user-intake-implementation-plan"></a>
+
+## Entry 14 — 2026-08-08 — Track qualified-user intake implementation plan
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+Prompts 33–47 and their supporting templates were implemented through a detailed task-by-task plan, but that plan remained outside version control after the implementation and Narrative pull requests merged. Without the plan, future maintainers can see the resulting prompts but not the intended decomposition, interface handoffs, verification sequence, or review checkpoints used to produce them.
+
+## Decision
+
+Track the qualified-user ontology intake implementation plan under `docs/superpowers/plans/` as a historical and reusable engineering artifact. Keep it aligned with the merged sequence by naming active Prompt 32b and distinguishing the six Builder embedding prompts from the seven stages in the underlying guide.
+
+## Consequences
+
+Maintainers gain an auditable record of the implementation strategy and can reuse its task boundaries for later revisions. The repository gains a substantial documentation file that must be kept distinguishable from the normative prompt contracts and approved design specification. Tracking the plan changes no OntologyService runtime behavior, ontology content, generated artifact, or deployment.
