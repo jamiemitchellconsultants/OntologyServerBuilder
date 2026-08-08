@@ -69,6 +69,7 @@ submit each implementation stage only after the previous stage has passed its ac
     token](prompts/32b-distinguish-jwks-retrieval-failure.md)
 36. [Plan qualified-user intake](prompts/33-plan-qualified-user-intake.md)
 37. [Add durable intake](prompts/34-add-durable-intake-and-capabilities.md)
+38. [Add qualified-user intake submissions](prompts/35-add-qualified-intake-submissions.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
