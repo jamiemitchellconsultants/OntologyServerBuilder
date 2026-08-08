@@ -68,6 +68,14 @@ approved, complete mapping tools and must change deterministically when the comp
 change. Do not register a generic execute-any-mapping tool, dynamically discover definitions from
 the filesystem, intake store, network, or a mutable runtime source, or generate code at startup.
 
+Every generated closure must authenticate to the existing `AuthorisedPrincipal` and require
+`ontology:read` using the repository's established authorization path before it validates tool
+input, selects a descriptor, or invokes the evaluator. Reject an authenticated principal lacking
+that capability with the existing authorization error convention, without revealing tool data,
+schema details, descriptor provenance, mapping outcomes, or validation errors. Tool discovery,
+where the existing MCP framework authorizes it, and every invocation must preserve the same
+fail-closed policy; a missing capability must produce no evaluation and no I/O.
+
 ## Restricted pure evaluator and result contract
 
 Back each closure with one restricted evaluator over the compiled descriptor and its supplied
@@ -111,6 +119,9 @@ Add focused, offline tests covering:
   compiled-descriptor provenance, and fingerprint participation;
 - dynamic MCP discovery and registration of exactly one named closure per approved descriptor,
   with no generic execution endpoint or mutable runtime discovery;
+- an allowed qualified principal invoking a named tool, and an authenticated principal without
+  `ontology:read` rejected through the existing authorization error before schema validation,
+  evaluation, descriptor disclosure, or any I/O sentinel can run;
 - source, lookup, and target JSON-Schema validation; stable results for reordered object keys; and
   positive, negative, boundary, and ambiguity examples for every compiled mapping tool;
 - each structured failure outcome: `precondition-failed`, `missing-input`, `ambiguous-lookup`, and
@@ -133,6 +144,9 @@ Narrative output.
   structured outcomes; it cannot execute generated code or perform I/O.
 - Tool discovery exposes the exact approved descriptor set, while review-required, deprecated,
   incomplete, invalid, and unresolved definitions cannot become callable by omission or fallback.
+- Every named mapping-tool invocation requires `ontology:read` on an authenticated
+  `AuthorisedPrincipal` before it can disclose a descriptor, validate input, evaluate a mapping, or
+  cause any side effect.
 - Mapping envelopes provide deterministic version and ontology provenance and either a valid target
   record or a canonical structured failure, leaving source retrieval and target calls to the
   conversational agent's separate system tools.

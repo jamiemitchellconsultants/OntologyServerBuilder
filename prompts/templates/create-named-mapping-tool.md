@@ -14,8 +14,11 @@ Replace every placeholder before beginning:
 Source entity ID: <stable ID>
 Target entity ID: <stable ID>
 Approved mapping-instruction ID: <stable ID>
+Expected/new stable mapping-tool ID: <stable ID>
 Mapping-review analysis report: <bounded reviewed report path or identifier>
 Reviewed mapping decisions: <review record or decision IDs>
+Review ontology fingerprint: <exact reviewed compiled-ontology fingerprint>
+Governed-source context: <exact relevant source paths, IDs, and digests or bounded references>
 Expected stable MCP tool name: <name>
 Source-record JSON Schema: <reviewed schema reference>
 Target-record JSON Schema: <reviewed schema reference>
@@ -24,18 +27,23 @@ Lookup-input schemas: <each named lookup and reviewed schema reference>
 
 Stop if any placeholder is absent, if the mapping instruction is not approved and structurally
 complete, or if the report, decisions, schemas, entities, attributes, relationships, evidence, or
-review provenance cannot be verified from the governed repository context. Do not follow a source
-locator, retrieve a raw artifact or live record, open an attachment, invoke a model, or use an
-unreviewed local path as evidence.
+review provenance cannot be verified from the governed repository context. Validate the supplied
+mapping-tool ID against the current source for format, uniqueness, and compatibility; never invent,
+silently alter, or substitute it. Validate the supplied ontology fingerprint and governed-source
+context against the current reviewed inputs, and record both in review provenance. Stop on a
+missing, invalid, colliding, stale, or mismatched ID, fingerprint, or context rather than guessing.
+Do not follow a source locator, retrieve a raw artifact or live record, open an attachment, invoke
+a model, or use an unreviewed local path as evidence.
 
 ## Task
 
-Propose the smallest governed change needed to add or revise one named mapping-tool definition.
-Preserve the stable mapping-tool ID and MCP name when revising a compatible contract; otherwise
-stop and state the required versioning and migration decision. Include:
+Propose the smallest governed change needed to add or revise the supplied named mapping-tool
+definition. Preserve the supplied stable mapping-tool ID and MCP name when revising a compatible
+contract; otherwise stop and state the required versioning and migration decision. Include:
 
-- source and target entity IDs, the approved mapping-instruction ID, semantic version, lifecycle
-  status, evidence, review provenance, and resolved versus unresolved requirements;
+- mapping-tool ID, source and target entity IDs, the approved mapping-instruction ID, semantic
+  version, lifecycle status, evidence, review provenance containing the validated ontology
+  fingerprint and governed-source context, and resolved versus unresolved requirements;
 - explicit source-record, target-record, and named lookup-input JSON Schemas;
 - reviewed preconditions and transformations expressed only through the repository's declarative
   operation allow-list;
