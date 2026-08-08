@@ -28,14 +28,20 @@ Expose the compilation-level `embeddingProvenance` and a selected candidate's co
 faithfully project already compiled review data and return the same evidence fields for the same
 records. Do not replace either surface or add another mapping-review identifier.
 
-Define one deterministic, bounded review projection shared by both surfaces. Sort compiled records
-by stable ID before selecting records. The tool accepts an optional `limit` integer from 1 through
-100, defaulting to 100. The resource takes no new input and returns the same first 100 records in
-that stable-ID order. Both responses must include the same `{ total, returned, truncated }` metadata
-and the same stored evidence fields for every returned record. `total` is the full matching-review
-count, `returned` is the selected-record count, and `truncated` is true exactly when `returned` is
-less than `total`. Use the existing authorization, generated-artifact loading, and error conventions
-outside this bounded projection.
+Define one deterministic, bounded review-queue projection and serializer shared by both surfaces;
+do not implement parallel formatting paths. Its only population is compiled records whose
+disposition is `review-required` or `unmatched`, sorted by stable ID. The resource takes no new
+input and returns the first 100 records from that queue.
+
+The tool accepts an optional `limit` integer from 1 through 100, defaulting to 100. With no
+disposition filter and the default limit, it must return a byte-equivalent record array and
+byte-equivalent `{ total, returned, truncated }` metadata to the resource. When the existing tool
+disposition filter is supplied, filter within that review-queue population before stable-ID sorting
+and limiting; do not invent a second population. `total` is the filtered-population size, `returned`
+is the selected-record count, and `truncated` is true exactly when `returned` is less than `total`.
+For unsupported or non-review dispositions, use the existing validation-error conventions when they
+allow it; do not silently select a different population. Use the existing authorization and
+generated-artifact loading conventions outside this shared projection.
 
 - Do not add an embedding creation, refresh, query, search, similarity, or free-form semantic MCP
   tool, resource, endpoint, CLI command, or runtime model client.
@@ -50,10 +56,11 @@ outside this bounded projection.
   OWL inference or an automatic acceptance decision.
 
 Add in-memory MCP and runtime tests that prove both named surfaces expose identical enabled compiled
-evidence through the shared bounded projection. Cover the tool's default, minimum, maximum, and
-invalid limits; the 100-record cap; stable-ID selection; exact `{ total, returned, truncated }`
-metadata; resource selection of the same first 100 records; and identical evidence fields returned
-by both surfaces. Also prove disabled output remains compatible without placeholders, and
+evidence through the shared bounded projection. Assert exact default tool/resource equivalence,
+shared queue membership, filtered metadata, the tool's minimum, maximum, and invalid limits, the
+100-record cap, stable-ID selection, exact `{ total, returned, truncated }` metadata, resource
+selection of the same first 100 records, and identical evidence fields returned by both surfaces.
+Also prove disabled output remains compatible without placeholders, and
 repeated calls are equal and cause no writes, cache reads, environment/credential reads,
 network/model-client construction, refresh dispatch, or model execution. Install sentinels after
 fixture setup so any prohibited operation fails immediately.
@@ -115,11 +122,11 @@ mandatory. Name tests so each scenario can be identified in command output.
 5. **Fingerprint change:** a changed used vector, text hash, model identity, dimension, weight, or
    maximum semantic-candidate setting changes the digest/fingerprint and makes `ontology:check`
    report stale artifacts; an unused valid entry does not.
-6. **MCP evidence:** `ontology_list_mapping_reviews` and `ontology://mapping-review` expose the
-   same stored enabled provenance and selected-candidate evidence through identical bounded records.
-   The tool enforces optional limits from 1 through 100, default 100; the resource returns the same
-   first 100 stable-ID records. Both include exact `{ total, returned, truncated }` metadata, omit
-   disabled/fallback placeholders, and remain read-only and idempotent.
+6. **MCP evidence:** both surfaces share one serializer over the `review-required` and `unmatched`
+   queue, sorted by stable ID. The resource returns its first 100 records; the default tool response
+   is byte-equivalent. Tool filters apply within that queue before sorting and limiting and return
+   filtered `{ total, returned, truncated }` metadata. Both omit disabled/fallback placeholders and
+   remain read-only and idempotent.
 7. **Deterministic artifacts:** two equivalent enabled compiles produce byte-identical JSON, OWL,
    SHACL, mapping-review, and fingerprint output; reordered cache entries do not change them.
 8. **Manual precedence:** manual mappings override automatic rank, disposition, and evidence; no
@@ -136,8 +143,8 @@ matrix.
 ## Acceptance criteria and verification
 
 - `ontology_list_mapping_reviews` and `ontology://mapping-review` expose only already compiled
-  embedding evidence through the same deterministic bounded projection and metadata; there is no
-  new model-executing or free-form semantic interface.
+  embedding evidence through one deterministic, bounded review-queue projection and serializer;
+  there is no new model-executing or free-form semantic interface.
 - Runtime and MCP delivery are read-only, idempotent, and offline; compilation remains the only
   consumer of a committed cache, and explicit refresh remains the only network-capable route.
 - Documentation covers disabled default, refresh, cache review/commit, upgrades, costs, credentials,
