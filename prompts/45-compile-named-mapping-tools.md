@@ -154,8 +154,8 @@ Narrative output.
 Run the repository's full check (currently `npm run check`, if still provided), focused compiler,
 schema-validation, mapping evaluator, MCP discovery/registration, determinism, failure-envelope,
 and no-I/O boundary tests, plus `git diff --check`. Inspect generated-artifact changes and explain
-every legitimate change. Confirm `ontology/compiled/` has no unreviewed manual edit. Commit
-locally with the focused message `Add named mapping tools`. Do not push.
+every legitimate change. Confirm `ontology/compiled/` has no unreviewed manual edit.
+Commit locally with the focused message `Add named mapping tools`. Do not push.
 
 ## Governance
 

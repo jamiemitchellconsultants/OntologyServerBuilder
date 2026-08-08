@@ -97,6 +97,17 @@ Run the repository's full check (currently `npm run check`, if still provided), 
 regression and boundary tests, and `git diff --check`. Inspect generated artifacts and confirm
 `ontology/compiled/` has no diff. Commit locally with a focused message. Do not push.
 
+## Acceptance criteria
+
+- Fusion is all-or-nothing per source entity, deterministic, and uses only a validated injected
+  context; disabled or vector-incomplete matching remains byte-identical to lexical matching.
+- Embedding evidence is complete only for fused automated pairs, manual decisions retain precedence,
+  and embeddings can require review but cannot independently cause `accepted-auto`.
+- The stage remains offline and disabled: it loads no cache, reads no filesystem or environment,
+  calls no network/model service, and changes no compiler, runtime, CLI, MCP, or generated artifact.
+- Focused offline matcher and boundary tests, `npm run check`, and `git diff --check` pass with no
+  unexplained `ontology/compiled/` diff.
+
 ## Governance
 
 This is a decision-bearing architecture and product implementation. Before merging a target

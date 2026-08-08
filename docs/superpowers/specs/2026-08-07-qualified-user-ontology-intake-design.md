@@ -51,7 +51,7 @@ The existing sequence already teaches:
 - reviewed declarative mapping instructions;
 - stateless, review-required system-registration and ontology-refinement proposal packages;
 - in-process access-token validation and Keycloak MCP OAuth discovery; and
-- a six-stage guide for adding an offline, cached embedding matcher.
+- a seven-stage guide for adding an offline, cached embedding matcher.
 
 The requested workflow adds four material capabilities: durable intake, engineer-side combined
 matching, deployed change visibility, and compiled named mapping tools.

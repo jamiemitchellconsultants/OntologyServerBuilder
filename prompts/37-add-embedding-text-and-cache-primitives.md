@@ -78,6 +78,17 @@ provided), `git diff --check`, and the matcher regression tests. Confirm that
 
 Commit locally with a focused message. Do not push.
 
+## Acceptance criteria
+
+- Canonical embedding text, its SHA-256 content hash, cosine similarity, and unit-score
+  normalization are pure and deterministic for equivalent inputs.
+- Cache validation rejects malformed, duplicate, mismatched, non-finite, and zero-vector data;
+  serialization is deterministic and writes preserve the previous cache on every failed operation.
+- The stage remains offline and disabled: it adds no configuration, model/network/credential path,
+  matcher scoring change, compiler/runtime/MCP integration, or generated-artifact modification.
+- Focused offline tests, the matcher regression suite, `npm run check`, and `git diff --check` pass
+  with no unexplained `ontology/compiled/` diff.
+
 ## Governance
 
 Before changes, classify this implementation decision under the target repository's Project
