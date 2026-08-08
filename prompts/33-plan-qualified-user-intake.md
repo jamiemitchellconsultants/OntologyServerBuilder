@@ -4,6 +4,9 @@ Inspect the current built service and write a reviewable plan. Do not change run
 ontology inputs, compiled artifacts, authentication behavior, deployment configuration, or MCP
 contracts in this stage.
 
+Work in the separate `OntologyService` repository, not in `OntologyServerBuilder`. Do not change
+Builder files in this stage.
+
 This stage follows Prompt 32b. It consumes the behavior produced by Prompts 3, 4, 6, 12, 17–20,
 and 30–32b. It produces the architecture and migration plan that Prompts 34–47 will implement.
 
@@ -43,6 +46,11 @@ engineers promote reviewed repository changes through the normal pull-request, C
 deployment path. It must identify the relevant existing source, test, deployment, and documentation
 locations for every later prompt, while leaving the implementation decisions that need new evidence
 plainly open.
+
+The plan must state that the runtime does not retrieve interface sources, open user attachments, or
+call a model. These boundaries apply alongside the review, CI/CD, and deployment gate:
+qualified-user material remains evidence until engineers promote reviewed repository changes through
+that gate.
 
 ## Scope exclusions
 
