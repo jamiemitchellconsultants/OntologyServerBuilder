@@ -80,6 +80,7 @@ submit each implementation stage only after the previous stage has passed its ac
 46. [Add bounded LLM intake analysis](prompts/43-add-llm-intake-analysis.md)
 47. [Add deployment release-change visibility](prompts/44-add-release-change-visibility.md)
 48. [Compile named mapping tools](prompts/45-compile-named-mapping-tools.md)
+49. [Add the accounts-payable mapping example](prompts/46-add-accounts-payable-mapping-example.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
