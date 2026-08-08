@@ -22,18 +22,25 @@ digest, source and canonical content hashes, and vectors. The matcher must neith
 guess this data, and it must validate any context crossing its own public boundary according to the
 typed contracts from Prompt 38.
 
-When embeddings are enabled and both the source and candidate vectors are present, calculate:
+Fusion is all-or-nothing for one source entity. Fuse only when embeddings are enabled and the
+source vector plus every eligible canonical candidate vector for that source are present and
+validated. If the source vector or any eligible candidate vector is absent, use the existing lexical
+path for that source's entire candidate set: rank, select, dispose, reason, and serialize it
+byte-for-byte as lexical matching does. Do not mix lexical and fused scores within one source's
+ranking.
+
+For a source eligible for fusion, calculate every candidate's scores as:
 
 ```text
 embeddingScore = normalizeToUnitScore(cosineSimilarity(sourceVector, candidateVector))
 combinedScore = lexicalWeight * lexicalScore + embeddingWeight * embeddingScore
 ```
 
-Use the validated configured weights exactly. Rank eligible candidates by `combinedScore`, then by
+Use the validated configured weights exactly. Rank fused candidates by `combinedScore`, then by
 stable canonical ID in ascending order for an exact tie. Retain the current lexical ranking,
-selection, reasons, and output byte-for-byte when embeddings are disabled or either vector is
-missing. A missing vector is not an error and must never receive an invented zero score, partial
-fusion, or placeholder evidence.
+selection, reasons, dispositions, and output byte-for-byte when embeddings are disabled or the
+source's candidate set is not wholly vector-complete. A missing vector is not an error and must
+never receive an invented zero score, partial fusion, or placeholder evidence.
 
 For each selected pair scored with both vectors, preserve complete structured embedding evidence:
 the independent lexical score, embedding score, combined score, exact model ID/version/dimension,
@@ -68,7 +75,10 @@ reach a network endpoint. Cover:
 
 - exact weighted fusion arithmetic;
 - embedding-driven reranking, including stable canonical-ID ordering for tied combined scores;
-- lexical fallback for disabled embeddings and for a source or target with no vector;
+- lexical fallback for disabled embeddings and for a source with no vector;
+- a mixed-availability regression where one eligible canonical candidate has no vector, proving
+  fusion is disabled for that source and lexical ranking, selection, dispositions, reasons, and
+  serialized output are byte-identical;
 - an embedding promotion from unmatched to `review-required`;
 - refusal to auto-accept a semantically high-scoring pair whose independent lexical score is below
   the high-confidence threshold;
