@@ -401,7 +401,7 @@ pass.
 
 ## Builder prompt sequence
 
-Add these stages after Prompt 32:
+Add these stages after Prompt 32b:
 
 33. Plan qualified-user intake and governed mapping-tool delivery.
 34. Add capability authorization and the durable append-only intake store.
