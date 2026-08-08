@@ -33,11 +33,13 @@ verify according to the repository's existing provenance conventions. A first-de
 if the repository needs one, must be an explicit reviewed baseline artifact and provenance, not an
 implicit empty prior release.
 
-Write a canonical `release-manifest.json` from only the three verified inputs. Its byte order,
-collection ordering, identifiers, and digest behavior must be deterministic. Repeating generation
-with byte-identical inputs must produce byte-identical output. The release ID and deployment
-timestamp are release metadata, not values inferred at runtime; validate their format and reject
-ambiguous or duplicate release metadata.
+Write a canonical `release-manifest.json` from only the three verified inputs. Its top level must
+include the release ID, deployment timestamp, previous ontology fingerprint, and current/candidate
+ontology fingerprint. Derive all four values from the verified explicit inputs; do not obtain any
+from runtime state. Its byte order, collection ordering, identifiers, and digest behavior must be
+deterministic. Repeating generation with byte-identical inputs must produce byte-identical output.
+The release ID and deployment timestamp are release metadata, not values inferred at runtime;
+validate their format and reject ambiguous or duplicate release metadata.
 
 Compare stable IDs and classify added, changed, deprecated, and removed records for each of these
 governed classes:
@@ -48,17 +50,20 @@ governed classes:
 - relationships;
 - semantic mappings;
 - mapping definitions; and
-- named mapping tools, if present in the candidate artifact.
+- named mapping tools.
 
-For a stable ID present in both artifacts, determine `changed` from the canonical representation
-that defines that class's deployed semantics. Do not classify a formatting-only difference as a
-semantic change. Preserve the applicable governed provenance for every result. Define and document
-the deterministic sort order and tie-breakers, including ordering across classes and stable IDs.
-Classify compatibility impact using explicit reviewed rules that distinguish at least compatible,
-potentially-breaking, and breaking effects. A removed item, a deprecation, and an altered schema or
-mapping contract must not be silently treated as equivalent. If a class or field cannot be assessed
-from the compiled artifact, report that limitation as a deterministic review flag rather than
-guessing compatibility.
+For every class, form the union of stable IDs in the previous and candidate artifacts. Emit a record
+for a candidate-only ID as `added`, a previous-only ID as `removed`, and an ID present in both when
+it is changed or deprecated according to its canonical deployed representation. This includes named
+mapping tools even when they occur only in the previous artifact. Determine `changed` from the
+canonical representation that defines that class's deployed semantics. Do not classify a
+formatting-only difference as a semantic change. Preserve the applicable governed provenance for
+every result. Define and document the deterministic sort order and tie-breakers, including ordering
+across classes and stable IDs. Classify compatibility impact using explicit reviewed rules that
+distinguish at least compatible, potentially-breaking, and breaking effects. A removed item, a
+deprecation, and an altered schema or mapping contract must not be silently treated as equivalent.
+If a class or field cannot be assessed from the compiled artifact, report that limitation as a
+deterministic review flag rather than guessing compatibility.
 
 ## Fingerprint and delivery-plane boundary
 
@@ -83,14 +88,17 @@ already validated `AuthorisedPrincipal`; tool discovery or a valid token alone i
 Use existing authorization and generated-artifact loading conventions. Give the tool read-only,
 idempotent annotations consistent with the repository's MCP conventions.
 
-Define one shared deterministic projection and serializer for the two surfaces. The resource takes
-no input. The tool may accept only a documented bounded filter or limit if the target repository
-needs one; validate every input and keep the tool's default response byte-equivalent to the
-resource's record array and metadata. In all cases, bound output, sort records by the documented
-stable order, include clear `total`, `returned`, and `truncated` metadata, and return enough
-release, fingerprint, class, change-kind, compatibility-impact, and governed-provenance evidence
-for a qualified user to prepare a correction. Do not return a full compiled artifact or an
-unbounded manifest dump.
+Define one shared deterministic projection and serializer over flattened canonical change records
+for the two surfaces. Flatten and select the union-classification records in explicit change-class
+order, then stable ID, then an explicitly documented field-level tie-breaker. The resource takes no
+input and returns the first 100 records. The tool accepts only an optional `limit` integer from 1
+through 100, defaulting to 100; reject any other value. The default tool response must have a
+byte-equivalent record array and byte-equivalent `{ total, returned, truncated }` metadata to the
+resource. `total` is the full flattened population, `returned` is the selected-record count, and
+`truncated` is true exactly when `returned` is less than `total`. Return enough release,
+fingerprint, class, change-kind, compatibility-impact, and governed-provenance evidence for a
+qualified user to prepare a correction. Do not return a full compiled artifact or an unbounded
+manifest dump.
 
 Document the pull-based workflow: an authorized conversational agent reads
 `ontology://release/current` or calls `ontology_get_release_changes`; it identifies the deployed
@@ -109,10 +117,14 @@ retrieving, querying, updating, deleting, exporting, or disposing of pending int
 
 Add focused, deterministic tests covering:
 
-- every governed class and each added, changed, deprecated, and removed change class, including
-  compatibility-impact classification and governed provenance;
+- every governed class and each added, changed, deprecated, and removed change class, including a
+  previous-only named mapping tool emitted as removed, compatibility-impact classification, and
+  governed provenance;
 - stable sorting, documented tie-breakers, canonical serialization, and repeated byte-identical
   manifest generation from equivalent explicit inputs;
+- exact top-level release ID, deployment timestamp, previous fingerprint, and current/candidate
+  fingerprint values derived from the verified inputs, proving that the fingerprints are comparison
+  and provenance fields only;
 - missing, malformed, mismatched, or unprovenanced baseline failure before manifest generation,
   including refusal to infer a baseline from Git, the working tree, or the network;
 - manifest fingerprint non-participation: changing valid release metadata or the manifest does not
@@ -120,9 +132,9 @@ Add focused, deterministic tests covering:
 - `ontology:read` enforcement on both the exact MCP tool and resource, refusal before projection
   for a validated principal without that capability, and preservation of existing authorization
   behavior;
-- one shared bounded projection: exact default tool/resource equivalence, stable selection,
-  `{ total, returned, truncated }` metadata, invalid-bound rejection, and no unbounded artifact
-  dump;
+- one shared bounded projection: exact default tool/resource equivalence, 100-record cap, stable
+  selection, `{ total, returned, truncated }` metadata, invalid-bound rejection, and no unbounded
+  artifact dump;
 - manifest non-disclosure of intake records, identifiers, receipts, subjects, lifecycle events,
   dispositions, raw artifacts, local paths, credentials, or business records; and
 - sentinels installed after fixtures proving generation, CI checks, server startup and requests,
@@ -138,8 +150,9 @@ Narrative output.
 - CI produces a deterministic `release-manifest.json` solely from verified explicit previous and
   candidate compiled artifacts plus explicit release metadata, and it fails closed without a
   baseline and provenance.
-- The manifest classifies stable-ID changes, compatibility impact, and governed provenance across
-  every specified class without changing the ontology fingerprint.
+- The manifest includes verified release and comparison fingerprint fields, and classifies stable-ID
+  changes, compatibility impact, and governed provenance across every specified class without
+  changing the ontology fingerprint.
 - `ontology_get_release_changes` and `ontology://release/current` expose the same bounded,
   authorized current-release projection; they neither promise history nor disclose intake content.
 - An authorized qualified user can use the current delta and fingerprint to submit a further
