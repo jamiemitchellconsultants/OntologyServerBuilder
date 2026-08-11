@@ -24,6 +24,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [13](#entry-add-qualified-user-ontology-intake-workflow-prompts) | 2026-08-08 | Add qualified-user ontology intake workflow prompts | product | Add a 15-stage Builder sequence that separates a mutable, capability-gated intake plane from the immutable delivery plane. Submitted normalized definitions and change proposals remain outside ontology compilation. |
 | [14](#entry-track-qualified-user-intake-implementation-plan) | 2026-08-08 | Track qualified-user intake implementation plan | product | Track the qualified-user ontology intake implementation plan under `docs/superpowers/plans/` as a historical and reusable engineering artifact. |
 | [15](#entry-move-qualified-user-intake-storage-to-s3-add-mcp-server-registration-tem) | 2026-08-08 | Move qualified-user intake storage to S3; add MCP-server registration template and skill | product | Replace the `IntakeStore` adapter's storage technology from SQLite to S3-compatible object storage. |
+| [16](#entry-add-ephemeral-supplier-mcp-registration-prompt) | 2026-08-11 | Add ephemeral supplier MCP registration prompt | product | Add Prompt 49 as a separate stage and leave Prompt 48 unchanged. |
 
 ---
 
@@ -662,3 +663,23 @@ unchanged: it is tracked as a historical record of the reasoning that produced t
 SQLite-based Prompts 33-47, and rewriting it would misrepresent that history. This PR's narrative
 entry is the record of the correction; the old plan stays as evidence of what was originally decided
 and why it needed revisiting.
+
+---
+
+<a id="entry-add-ephemeral-supplier-mcp-registration-prompt"></a>
+
+## Entry 16 — 2026-08-11 — Add ephemeral supplier MCP registration prompt
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+Prompt 48 packages a client-side skill for users who already connected to a supplier MCP server, but a separate product option is needed for OntologyService to perform one attributable discovery attempt itself. That option conflicts with previously played no-fetch and separately supplied artifact constraints. Earlier prompts are historical stages and cannot be rewritten after they have been applied, so the new stage must state exactly which clauses it supersedes and preserve every unaffected boundary.
+
+## Decision
+
+Add Prompt 49 as a separate stage and leave Prompt 48 unchanged. Prompt 49 specifies two capability-gated tools, a short-lived browser handoff for client credentials or authorization code with PKCE, bounded and SSRF-resistant supplier MCP discovery, immutable content-addressed catalog evidence, structural normalization, and review-required intake submission. Credentials and tokens exist only for the registration attempt. Prompt 49 explicitly supersedes the conflicting behavior from Prompts 18, 33, 34, 35, 36, and 48; Prompt 47 remains the historical pre-change audit. The rejected alternatives were editing Prompt 13 retroactively, replacing Prompt 48, accepting secrets in MCP tool arguments, persisting supplier credentials, or widening network access across the delivery plane.
+
+## Consequences
+
+Future builders gain a direct-registration option without erasing the existing client-captured path or rewriting completed stages. Applying Prompt 49 will deliberately expand OntologyService's intake architecture with outbound MCP/OIDC traffic, browser callbacks, ephemeral state, and raw catalog evidence custody, which increases implementation and operational complexity and requires substantial security testing. The compiler, SPARQL, mapping tools, ordinary delivery handlers, and all non-registration paths retain their no-network boundary. Prompt 47 cannot be cited as assurance for the new path; Prompt 49 carries its own acceptance evidence and will require later independent review if that assurance is desired.
