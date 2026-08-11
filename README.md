@@ -84,6 +84,8 @@ submit each implementation stage only after the previous stage has passed its ac
 50. [Independently audit the qualified-user workflow](prompts/47-audit-qualified-user-workflow.md)
 51. [Package the qualified-user MCP-registration
     skill](prompts/48-package-qualified-user-registration-skill.md)
+52. [Add ephemeral supplier MCP discovery and
+    registration](prompts/49-add-ephemeral-supplier-mcp-registration.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -124,6 +126,15 @@ already-audited 33–47 sequence, not because it depends on any of Prompts 36–
 qualified-user side of registration — reachable today only by manually supplying the
 `register-supplier-mcp-server.md` template — as an installable Claude Skill distributed from
 `OntologyService`'s own repository, so a qualified user's own client can trigger it directly.
+
+Prompt 49 adds a separate direct-registration path and leaves Prompt 48 unchanged. It lets an
+attributable qualified user ask `OntologyService` to connect to one supplied HTTPS MCP endpoint,
+complete client-credentials or authorization-code authentication through an ephemeral browser
+handoff, capture bounded discovery metadata, and submit immutable review-required evidence. The
+stage deliberately introduces outbound access only inside that disabled-by-default intake workflow;
+the compiler and delivery plane retain their no-network boundary. Prompt 49 depends on Prompts 20,
+32, 35, and 36, but not on Prompts 37–48. Earlier prompt files remain unchanged; Prompt 49 itself
+names each previously applied constraint that its direct-registration path supersedes.
 
 ### Operational prompt templates
 
