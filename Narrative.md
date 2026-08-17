@@ -25,6 +25,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [14](#entry-track-qualified-user-intake-implementation-plan) | 2026-08-08 | Track qualified-user intake implementation plan | product | Track the qualified-user ontology intake implementation plan under `docs/superpowers/plans/` as a historical and reusable engineering artifact. |
 | [15](#entry-move-qualified-user-intake-storage-to-s3-add-mcp-server-registration-tem) | 2026-08-08 | Move qualified-user intake storage to S3; add MCP-server registration template and skill | product | Replace the `IntakeStore` adapter's storage technology from SQLite to S3-compatible object storage. |
 | [16](#entry-add-ephemeral-supplier-mcp-registration-prompt) | 2026-08-11 | Add ephemeral supplier MCP registration prompt | product | Add Prompt 49 as a separate stage and leave Prompt 48 unchanged. |
+| [17](#entry-split-prompts-into-build-deploy-populate-groups) | 2026-08-17 | Split prompts into Build/Deploy/Populate groups | product | Added a parallel, reorganized view (`BuildDeployPopulate/`) rather than renumbering or moving `prompts/` itself, because `prompts/` is the canonical, execution-ordered sequence that `README.md` and every prompt's cross-references depend… |
 
 ---
 
@@ -683,3 +684,44 @@ Add Prompt 49 as a separate stage and leave Prompt 48 unchanged. Prompt 49 speci
 ## Consequences
 
 Future builders gain a direct-registration option without erasing the existing client-captured path or rewriting completed stages. Applying Prompt 49 will deliberately expand OntologyService's intake architecture with outbound MCP/OIDC traffic, browser callbacks, ephemeral state, and raw catalog evidence custody, which increases implementation and operational complexity and requires substantial security testing. The compiler, SPARQL, mapping tools, ordinary delivery handlers, and all non-registration paths retain their no-network boundary. Prompt 47 cannot be cited as assurance for the new path; Prompt 49 carries its own acceptance evidence and will require later independent review if that assurance is desired.
+
+---
+
+<a id="entry-split-prompts-into-build-deploy-populate-groups"></a>
+
+## Entry 17 — 2026-08-17 — Split prompts into Build/Deploy/Populate groups
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+The 53-prompt sequence in `prompts/` is ordered strictly by execution order, which conflates
+three different concerns: building the generic ontology-service engine, deploying a built
+instance, and populating the ontology with finance-domain content. Understanding "which
+prompts are infrastructure vs. domain content" required manually reading all 53 files, since
+the numbering alone doesn't signal it.
+
+## Decision
+
+Added a parallel, reorganized view (`BuildDeployPopulate/`) rather than renumbering or moving
+`prompts/` itself, because `prompts/` is the canonical, execution-ordered sequence that
+`README.md` and every prompt's cross-references depend on, and reordering it would violate the
+repository rule that stages are submitted in order, one per agent task. The new directory is
+purely a categorized reference copy.
+
+Classification followed two axes: whether a prompt adds generic mechanism vs. finance-domain
+ontology content (Build vs. Populate), and, within mechanism, whether a prompt is about running
+a built instance somewhere (Deploy) vs. the mechanism itself (Build). Borderline calls: prompt
+44 (release-change visibility) went to Deploy despite being implemented as an intake-plane
+feature, because its purpose is entirely about deployment-release visibility; prompts 32/32b
+(Keycloak OAuth mode, JWKS-failure distinction) stayed in Build rather than Deploy because they
+add a capability the service has everywhere, independent of where it's hosted — only prompt 32a,
+which wires that mode into the homelab deployment specifically, is Deploy.
+
+## Consequences
+
+`BuildDeployPopulate/` will drift from `prompts/` if new prompts are added there without a
+matching update here; keeping the two in sync is a manual step, not an enforced invariant. The
+classification and internal renumbering are a snapshot as of this PR — prompt 49, which landed
+on `main` after this reorganization was first drafted, was included as `A-35` to keep the copy
+current at merge time, but no automated check keeps future additions in sync.
