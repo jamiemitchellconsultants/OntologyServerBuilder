@@ -1,0 +1,75 @@
+# Prompt A-21 — Plan qualified-user intake and governed mapping-tool delivery
+
+Inspect the current built service and write a reviewable plan. Do not change runtime behavior,
+ontology inputs, compiled artifacts, authentication behavior, deployment configuration, or MCP
+contracts in this stage.
+
+Work in the separate `OntologyService` repository, not in `OntologyServerBuilder`. Do not change
+Builder files in this stage.
+
+This stage follows Prompt A-20. It consumes the behavior produced by Prompts A-04–A-05, A-07, A-12, C-02, A-16–A-18, B-02, and A-20. It produces the architecture and migration plan that Prompts A-22–A-31, B-05, A-32, C-12, and A-33 will implement.
+
+## Read before planning
+
+Read the current architecture, proposal workflows, authentication, deployment, matcher, compiler,
+mapping instructions, MCP surface, tests, and Project Narrative rules. In particular, establish
+what the service actually does today and distinguish it from the intended qualified-user workflow.
+Use the requirements in this prompt as the approved sequence boundary; do not depend on a document
+outside the target repository being present.
+
+## Plan document
+
+Create `docs/qualified-user-intake-and-mapping-tools.md`. It is the reviewable source of the
+implementation sequence, not a runtime contract and not a generated artifact. It must make the
+following decisions explicit:
+
+1. Current-state inventory and gaps.
+2. Two-plane architecture and dependency diagram.
+3. Capability matrix for read, propose, and intake review.
+4. Immutable submission and append-only event schemas.
+5. S3-backed intake baseline and disabled-by-default migration.
+6. Engineer export and offline analysis flow.
+7. Deterministic, embedding, and LLM evidence boundaries.
+8. Release-manifest contract.
+9. Named mapping-tool source, compiler, runtime, and failure contracts.
+10. Prompts A-22–A-31, B-05, A-32, C-12, and A-33 file-impact plan, rollback points, and open decisions.
+
+The plan must reconcile Prompt B-02's no-volume deployment with Prompt B-03's multi-instance AWS
+deployment. Because the intake adapter is S3-compatible object storage rather than a local embedded
+database, a durable intake bucket may be provisioned for either baseline; intake still stays
+disabled until that bucket, its access scope, and its monitoring are deliberately configured and
+verified. Do not imply that deployment may enable intake without its required durable storage.
+
+The plan must preserve the current compiler-owned generated-artifact boundary, the read-only
+delivery plane, and the rule that qualified-user submissions remain review-required evidence until
+engineers promote reviewed repository changes through the normal pull-request, CI/CD, and
+deployment path. It must identify the relevant existing source, test, deployment, and documentation
+locations for every later prompt, while leaving the implementation decisions that need new evidence
+plainly open.
+
+The plan must state that the runtime does not retrieve interface sources, open user attachments, or
+call a model. These boundaries apply alongside the review, CI/CD, and deployment gate:
+qualified-user material remains evidence until engineers promote reviewed repository changes through
+that gate.
+
+## Scope exclusions
+
+Do not add an intake store, authorization capability, MCP tool, CLI command, mapping definition,
+release manifest, migration, database, volume, or deployment setting. Do not edit ontology inputs
+or compiled artifacts. Do not alter authentication behavior, existing MCP contracts, or generated
+output. This stage is documentation and architectural planning only.
+
+## Acceptance criteria
+
+- `docs/qualified-user-intake-and-mapping-tools.md` contains all ten required planning decisions
+  and explicitly reconciles the Prompt B-02 and Prompt B-03 deployment constraints.
+- The plan is grounded in the current service rather than assuming future files or behavior exist.
+- No ontology or generated-artifact diff.
+- `npm run check` and `git diff --check` pass.
+
+This target-service plan is a meaningful product, architecture, governance, and operational
+decision. If opening a pull request, apply `narrative-required` and include substantive
+`## Narrative Context`, `## Narrative Decision`, and `## Narrative Consequences` sections before
+merge. Never hand-edit generated `Narrative.md`.
+
+Commit locally with a focused local documentation message. Do not push.
