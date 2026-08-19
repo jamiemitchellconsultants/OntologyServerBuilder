@@ -86,6 +86,8 @@ submit each implementation stage only after the previous stage has passed its ac
     skill](prompts/48-package-qualified-user-registration-skill.md)
 52. [Add ephemeral supplier MCP discovery and
     registration](prompts/49-add-ephemeral-supplier-mcp-registration.md)
+53. [Add an advisory home-lab semantic-drift
+    review](prompts/50-advisory-semantic-drift-review.md)
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
@@ -135,6 +137,16 @@ stage deliberately introduces outbound access only inside that disabled-by-defau
 the compiler and delivery plane retain their no-network boundary. Prompt 49 depends on Prompts 20,
 32, 35, and 36, but not on Prompts 37–48. Earlier prompt files remain unchanged; Prompt 49 itself
 names each previously applied constraint that its direct-registration path supersedes.
+
+Prompt 50 is the first stage in which this project's continuous integration talks to a model at
+all, and it is deliberately the weakest kind of dependency on one. It adds a pull-request review
+that flags prose which paraphrases or contradicts a canonical concept, running a model on the
+operator's own home lab reached over a private network. The findings are advisory: a finding never
+turns a check red, only the job's own configuration or infrastructure failing does, and the job
+skips cleanly in the majority of built repositories that have no home lab to point it at. It reads
+the compiled ontology, so it can run any time after Prompt 4, and it inherits Prompt 43's rule that
+text arriving from outside is inert quoted data. It does not add a deterministic term check over
+prose, and says so rather than presenting the advisory review as a control it is not.
 
 ### Operational prompt templates
 
