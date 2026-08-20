@@ -22,6 +22,13 @@ Consequences for how you work here:
 
 - A prompt is a specification handed to an agent working in a *different* repository. It cannot
   assume anything exists that an earlier prompt did not create.
+- **Prompt authoring location:** `BuildDeployPopulate/` is the canonical prompt tree. The former
+  `prompts/` directory is legacy material and must not receive new prompts. When asked to create a
+  prompt, inspect the existing sequence and create it in the appropriate group: `GroupA-Build` for
+  build and service foundations, `GroupB-Deploy` for deployment and release operations, or
+  `GroupC-Populate` for governed ontology population and domain content. Preserve the numbering and
+  filename convention used by that group, and update the relevant index or documentation when the
+  new prompt changes the published sequence.
 - Prompts are submitted in order, one per agent task, each only after the previous stage passed its
   acceptance checks. A change that reorders, renumbers, or splits a stage must keep that true and
   update `README.md`'s sequence listing in the same change.
