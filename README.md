@@ -14,6 +14,19 @@ the correct repository, and understanding the difference between local and cloud
 Use the same coding-agent task throughout when possible. Submit the reusable contract first, then
 submit each implementation stage only after the previous stage has passed its acceptance checks.
 
+### Prompt authoring note for AI agents
+
+`BuildDeployPopulate/` is now the canonical prompt tree. The former `prompts/` directory is legacy
+material; do not create new prompts there. When asked to create a prompt, place it in the appropriate
+subdirectory:
+
+- `BuildDeployPopulate/GroupA-Build/` for build and service foundations;
+- `BuildDeployPopulate/GroupB-Deploy/` for deployment and release operations; or
+- `BuildDeployPopulate/GroupC-Populate/` for governed ontology population and domain content.
+
+Follow the existing numbering and filename convention in that group, and update the relevant
+sequence index or documentation when adding a prompt.
+
 1. [Reusable contract](prompts/00-reusable-contract.md)
 2. [Project scaffold and domain model](prompts/01-scaffold-and-domain-model.md)
 3. [Adopt Project Narrative](prompts/02-adopt-project-narrative.md)
