@@ -27,78 +27,171 @@ subdirectory:
 Follow the existing numbering and filename convention in that group, and update the relevant
 sequence index or documentation when adding a prompt.
 
-1. [Reusable contract](prompts/00-reusable-contract.md)
-2. [Project scaffold and domain model](prompts/01-scaffold-and-domain-model.md)
-3. [Adopt Project Narrative](prompts/02-adopt-project-narrative.md)
-4. [Heterogeneous source ingestion](prompts/03-heterogeneous-source-ingestion.md)
-5. [Governed semantic matching and compilation](prompts/04-governed-matching-and-compilation.md)
-6. [OWL, SHACL, and build-time reasoning](prompts/05-owl-shacl-and-reasoning.md)
-7. [In-process graph queries and MCP](prompts/06-in-process-sparql-and-mcp.md)
+1. [Reusable contract](BuildDeployPopulate/GroupA-Build/01-reusable-contract.md)
+2. [Project scaffold and domain
+   model](BuildDeployPopulate/GroupA-Build/02-scaffold-and-domain-model.md) — Prompt
+   A-02
+3. [Adopt Project
+   Narrative](BuildDeployPopulate/GroupA-Build/03-adopt-project-narrative.md) — Prompt
+   A-03
+4. [Heterogeneous source
+   ingestion](BuildDeployPopulate/GroupA-Build/04-heterogeneous-source-ingestion.md) —
+   Prompt A-04
+5. [Governed semantic matching and
+   compilation](BuildDeployPopulate/GroupA-Build/05-governed-matching-and-compilation.md)
+   — Prompt A-05
+6. [OWL, SHACL, and build-time
+   reasoning](BuildDeployPopulate/GroupA-Build/06-owl-shacl-and-reasoning.md) — Prompt
+   A-06
+7. [In-process graph queries and
+   MCP](BuildDeployPopulate/GroupA-Build/07-in-process-sparql-and-mcp.md) — Prompt A-07
 8. [Delivery, security, documentation, and
-   governance](prompts/07-delivery-security-and-governance.md)
-9. [Independent reconstruction audit](prompts/08-independent-reconstruction-audit.md)
-10. [Correct the container host allow-list](prompts/09-container-host-allow-list.md)
+   governance](BuildDeployPopulate/GroupA-Build/08-delivery-security-and-governance.md)
+   — Prompt A-08
+9. [Independent reconstruction
+   audit](BuildDeployPopulate/GroupA-Build/09-independent-reconstruction-audit.md) —
+   Prompt A-09
+10. [Correct the container host
+    allow-list](BuildDeployPopulate/GroupB-Deploy/01-container-host-allow-list.md) —
+    Prompt B-01
 11. [Add reuse, security, and contribution
-    policies](prompts/10-reuse-security-and-contribution-policies.md)
-12. [Create the post-build review and next-steps document](prompts/11-create-nextsteps-review.md)
-13. [Create the Step 4 embedding-matcher guide](prompts/12-create-step4-embedding-guide.md)
-14. [Add canonical coding-agent instructions](prompts/13-canonical-agent-instructions.md)
-15. [Create the Step 2 security-test guide](prompts/14-create-step2-security-test-guide.md)
-16. [Position the service as general purpose](prompts/15-general-purpose-positioning.md)
-17. [Register a real invoice system](prompts/16-register-real-invoice-system.md)
-18. [Add governed entity-mapping instructions](prompts/17-governed-mapping-instructions.md)
+    policies](BuildDeployPopulate/GroupA-Build/10-reuse-security-and-contribution-policies.md)
+    — Prompt A-10
+12. [Create the post-build review and next-steps
+    document](BuildDeployPopulate/GroupA-Build/11-create-nextsteps-review.md) — Prompt
+    A-11
+13. [Create the Step 4 embedding-matcher
+    guide](BuildDeployPopulate/GroupA-Build/12-create-step4-embedding-guide.md) — Prompt
+    A-12
+14. [Add canonical coding-agent
+    instructions](BuildDeployPopulate/GroupA-Build/13-canonical-agent-instructions.md) —
+    Prompt A-13
+15. [Create the Step 2 security-test
+    guide](BuildDeployPopulate/GroupA-Build/14-create-step2-security-test-guide.md) —
+    Prompt A-14
+16. [Position the service as general
+    purpose](BuildDeployPopulate/GroupA-Build/15-general-purpose-positioning.md) —
+    Prompt A-15
+17. [Register a real invoice
+    system](BuildDeployPopulate/GroupC-Populate/01-register-real-invoice-system.md) —
+    Prompt C-01
+18. [Add governed entity-mapping
+    instructions](BuildDeployPopulate/GroupC-Populate/02-governed-mapping-instructions.md)
+    — Prompt C-02
 19. [Add user refinement and system-registration
-    proposals](prompts/18-user-refinement-and-registration-proposals.md)
+    proposals](BuildDeployPopulate/GroupA-Build/16-user-refinement-and-registration-proposals.md)
+    — Prompt A-16
 20. [Audit proposal safety without rejecting unusual
-    systems](prompts/19-audit-proposal-assurance.md)
-21. [Validate access tokens in-process](prompts/20-in-process-access-token-validation.md)
+    systems](BuildDeployPopulate/GroupA-Build/17-audit-proposal-assurance.md) — Prompt
+    A-17
+21. [Validate access tokens
+    in-process](BuildDeployPopulate/GroupA-Build/18-in-process-access-token-validation.md)
+    — Prompt A-18
 22. [Plan the finance and accounting semantic
-    migration](prompts/21-plan-finance-accounting-semantic-migration.md)
+    migration](BuildDeployPopulate/GroupC-Populate/03-plan-finance-accounting-semantic-migration.md)
+    — Prompt C-03
 23. [Add governed standards registries and semantic
-    alignments](prompts/22-add-governed-standards-alignments.md)
+    alignments](BuildDeployPopulate/GroupC-Populate/04-add-governed-standards-alignments.md)
+    — Prompt C-04
 24. [Add FIBO-aligned foundations and a REA accounting
-    core](prompts/23-add-foundational-and-rea-accounting-model.md)
-25. [Add ledger and journal semantics informed by XBRL
-    Global Ledger](prompts/24-add-ledger-and-journal-semantics.md)
+    core](BuildDeployPopulate/GroupC-Populate/05-add-foundational-and-rea-accounting-model.md)
+    — Prompt C-05
+25. [Add ledger and journal semantics informed by XBRL Global
+    Ledger](BuildDeployPopulate/GroupC-Populate/06-add-ledger-and-journal-semantics.md)
+    — Prompt C-06
 26. [Remodel procure-to-pay with OASIS UBL
-    alignments](prompts/25-remodel-procure-to-pay-with-ubl.md)
+    alignments](BuildDeployPopulate/GroupC-Populate/07-remodel-procure-to-pay-with-ubl.md)
+    — Prompt C-07
 27. [Remodel treasury, payments, and settlement with ISO 20022
-    alignments](prompts/26-remodel-treasury-and-payments-with-iso-20022.md)
+    alignments](BuildDeployPopulate/GroupC-Populate/08-remodel-treasury-and-payments-with-iso-20022.md)
+    — Prompt C-08
 28. [Add UK and international accounting-reporting
-    profiles](prompts/27-add-uk-and-international-reporting-profiles.md)
+    profiles](BuildDeployPopulate/GroupC-Populate/09-add-uk-and-international-reporting-profiles.md)
+    — Prompt C-09
 29. [Migrate the existing finance reference
-    model](prompts/28-migrate-existing-finance-reference-model.md)
+    model](BuildDeployPopulate/GroupC-Populate/10-migrate-existing-finance-reference-model.md)
+    — Prompt C-10
 30. [Independently audit the finance and accounting standards
-    migration](prompts/29-audit-finance-accounting-standards-migration.md)
+    migration](BuildDeployPopulate/GroupC-Populate/11-audit-finance-accounting-standards-migration.md)
+    — Prompt C-11
 31. [Deploy one instance to a homelab or local
-    network](prompts/30-homelab-local-network-deployment.md)
-32. [Deploy the service to AWS for production use](prompts/31-aws-production-deployment.md)
+    network](BuildDeployPopulate/GroupB-Deploy/02-homelab-local-network-deployment.md) —
+    Prompt B-02
+32. [Deploy the service to AWS for production
+    use](BuildDeployPopulate/GroupB-Deploy/03-aws-production-deployment.md) — Prompt
+    B-03
 33. [Accept Keycloak access tokens and answer the MCP OAuth
-    challenge](prompts/32-keycloak-mcp-oauth-access-tokens.md)
+    challenge](BuildDeployPopulate/GroupA-Build/19-keycloak-mcp-oauth-access-tokens.md)
+    — Prompt A-19
 34. ~~[Make the home-lab deployment actually run `keycloak`
-    mode](prompts/32a-deploy-keycloak-mode-on-the-home-lab.md)~~ — **withdrawn**; it assumed
-    this repository owned an ingress that belongs to the LocalAI deployment
+    mode](BuildDeployPopulate/GroupB-Deploy/04-deploy-keycloak-mode-on-the-home-lab.md)~~
+    — **withdrawn**; it assumed this repository owned an ingress that belongs to the
+    LocalAI deployment — Prompt B-04
 35. [Tell a key-retrieval failure apart from an invalid
-    token](prompts/32b-distinguish-jwks-retrieval-failure.md)
-36. [Plan qualified-user intake](prompts/33-plan-qualified-user-intake.md)
-37. [Add durable intake](prompts/34-add-durable-intake-and-capabilities.md)
-38. [Add qualified-user intake submissions](prompts/35-add-qualified-intake-submissions.md)
-39. [Add the engineer intake workbench](prompts/36-add-engineer-intake-workbench.md)
-40. [Add embedding text and cache primitives](prompts/37-add-embedding-text-and-cache-primitives.md)
-41. [Add embedding evidence](prompts/38-add-embedding-configuration-and-evidence.md)
-42. [Add the explicit embedding refresh command](prompts/39-add-embedding-refresh-command.md)
-43. [Fuse embeddings into governed matching](prompts/40-fuse-embeddings-into-matching.md)
-44. [Integrate the embedding cache](prompts/41-integrate-embedding-cache-with-compilation.md)
-45. [Complete embedding matcher delivery](prompts/42-complete-embedding-matcher-delivery.md)
-46. [Add bounded LLM intake analysis](prompts/43-add-llm-intake-analysis.md)
-47. [Add deployment release-change visibility](prompts/44-add-release-change-visibility.md)
-48. [Compile named mapping tools](prompts/45-compile-named-mapping-tools.md)
-49. [Add the accounts-payable mapping example](prompts/46-add-accounts-payable-mapping-example.md)
-50. [Independently audit the qualified-user workflow](prompts/47-audit-qualified-user-workflow.md)
+    token](BuildDeployPopulate/GroupA-Build/20-distinguish-jwks-retrieval-failure.md) —
+    Prompt A-20
+36. [Plan qualified-user
+    intake](BuildDeployPopulate/GroupA-Build/21-plan-qualified-user-intake.md) — Prompt
+    A-21
+37. [Add durable
+    intake](BuildDeployPopulate/GroupA-Build/22-add-durable-intake-and-capabilities.md)
+    — Prompt A-22
+38. [Add qualified-user intake
+    submissions](BuildDeployPopulate/GroupA-Build/23-add-qualified-intake-submissions.md)
+    — Prompt A-23
+39. [Add the engineer intake
+    workbench](BuildDeployPopulate/GroupA-Build/24-add-engineer-intake-workbench.md) —
+    Prompt A-24
+40. [Add embedding text and cache
+    primitives](BuildDeployPopulate/GroupA-Build/25-add-embedding-text-and-cache-primitives.md)
+    — Prompt A-25
+41. [Add embedding
+    evidence](BuildDeployPopulate/GroupA-Build/26-add-embedding-configuration-and-evidence.md)
+    — Prompt A-26
+42. [Add the explicit embedding refresh
+    command](BuildDeployPopulate/GroupA-Build/27-add-embedding-refresh-command.md) —
+    Prompt A-27
+43. [Fuse embeddings into governed
+    matching](BuildDeployPopulate/GroupA-Build/28-fuse-embeddings-into-matching.md) —
+    Prompt A-28
+44. [Integrate the embedding
+    cache](BuildDeployPopulate/GroupA-Build/29-integrate-embedding-cache-with-compilation.md)
+    — Prompt A-29
+45. [Complete embedding matcher
+    delivery](BuildDeployPopulate/GroupA-Build/30-complete-embedding-matcher-delivery.md)
+    — Prompt A-30
+46. [Add bounded LLM intake
+    analysis](BuildDeployPopulate/GroupA-Build/31-add-llm-intake-analysis.md) — Prompt
+    A-31
+47. [Add deployment release-change
+    visibility](BuildDeployPopulate/GroupB-Deploy/05-add-release-change-visibility.md) —
+    Prompt B-05
+48. [Compile named mapping
+    tools](BuildDeployPopulate/GroupA-Build/32-compile-named-mapping-tools.md) — Prompt
+    A-32
+49. [Add the accounts-payable mapping
+    example](BuildDeployPopulate/GroupC-Populate/12-add-accounts-payable-mapping-example.md)
+    — Prompt C-12
+50. [Independently audit the qualified-user
+    workflow](BuildDeployPopulate/GroupA-Build/33-audit-qualified-user-workflow.md) —
+    Prompt A-33
 51. [Package the qualified-user MCP-registration
-    skill](prompts/48-package-qualified-user-registration-skill.md)
+    skill](BuildDeployPopulate/GroupA-Build/34-package-qualified-user-registration-skill.md)
+    — Prompt A-34
 52. [Add ephemeral supplier MCP discovery and
-    registration](prompts/49-add-ephemeral-supplier-mcp-registration.md)
+    registration](BuildDeployPopulate/GroupA-Build/35-add-ephemeral-supplier-mcp-registration.md)
+    — Prompt A-35
+53. [Add engineer-workbench embedding
+    analysis](BuildDeployPopulate/GroupA-Build/36-add-workbench-embedding-analysis.md) —
+    Prompt A-36 (BuildDeployPopulate only; no `prompts/` counterpart)
+
+Each entry links to its file in `BuildDeployPopulate/` and names the canonical `A-NN` / `B-NN` /
+`C-NN` identifier that file's own heading carries. The discussion below cites prompts by the number
+originally assigned in the legacy `prompts/` tree, which still matches the number in the file's own
+title there; use the list above to find that same prompt's current location and identifier in
+`BuildDeployPopulate/`. Where a paragraph instead cites a numbered step inside `docs/step4.md` (for
+example "the guide's Prompt 6 assurance and Prompt 7 documentation stages"), that number belongs to
+that guide's own internal sequence and is unrelated to this repository's prompt numbering.
 
 The sequence deliberately separates architectural boundaries. Each stage requires executable
 evidence before the next begins. The reconstruction audit closes the initial build; the remaining
