@@ -1,4 +1,4 @@
-# Build the ontology from a supplier MCP server
+# Add a new source to the ontology from a supplier MCP server
 
 This guide describes the intended workflow specified by `OntologyServerBuilder`. The Builder
 repository is a staged specification; the workflow is implemented in the separate

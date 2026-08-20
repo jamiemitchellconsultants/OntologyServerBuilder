@@ -1,6 +1,6 @@
 # Populate the ontology from a supplier MCP server — step by step
 
-This guide expands [`build-the-ontology.md`](build-the-ontology.md) into the individual steps
+This guide expands [`add-new-source-to-ontology.md`](add-new-source-to-ontology.md) into the individual steps
 implemented in the separate `OntologyService` repository, including which MCP tool, CLI command, or
 file each step uses, what crosses each trust boundary, and what gate stops it. It also documents the
 three-tier semantic-matching step that advises a human when no deterministic match exists.
