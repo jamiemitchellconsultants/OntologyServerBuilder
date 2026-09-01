@@ -184,6 +184,9 @@ sequence index or documentation when adding a prompt.
 53. [Add engineer-workbench embedding
     analysis](BuildDeployPopulate/GroupA-Build/36-add-workbench-embedding-analysis.md) —
     Prompt A-36 (BuildDeployPopulate only; no `prompts/` counterpart)
+54. [Add an advisory home-lab semantic-drift
+    review](BuildDeployPopulate/GroupA-Build/37-advisory-semantic-drift-review.md) — Prompt
+    A-37 (BuildDeployPopulate only; no `prompts/` counterpart)
 
 Each entry links to its file in `BuildDeployPopulate/` and names the canonical `A-NN` / `B-NN` /
 `C-NN` identifier that file's own heading carries. The discussion below cites prompts by the number
