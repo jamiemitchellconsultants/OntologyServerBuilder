@@ -26,6 +26,7 @@ Reviewed fragments are authoritative; this compiled document is their determinis
 | [15](#entry-move-qualified-user-intake-storage-to-s3-add-mcp-server-registration-tem) | 2026-08-08 | Move qualified-user intake storage to S3; add MCP-server registration template and skill | product | Replace the `IntakeStore` adapter's storage technology from SQLite to S3-compatible object storage. |
 | [16](#entry-add-ephemeral-supplier-mcp-registration-prompt) | 2026-08-11 | Add ephemeral supplier MCP registration prompt | product | Add Prompt 49 as a separate stage and leave Prompt 48 unchanged. |
 | [17](#entry-split-prompts-into-build-deploy-populate-groups) | 2026-08-17 | Split prompts into Build/Deploy/Populate groups | product | Added a parallel, reorganized view (`BuildDeployPopulate/`) rather than renumbering or moving `prompts/` itself, because `prompts/` is the canonical, execution-ordered sequence that `README.md` and every prompt's cross-references depend… |
+| [18](#entry-add-prompt-a-37-advisory-home-lab-semantic-drift-review) | 2026-09-01 | Add Prompt A-37: advisory home-lab semantic-drift review | product | Added Prompt A-37 as an advisory-only review rather than a blocking check: it runs a model on the operator's own home-lab gateway (private network, not a third-party API), a finding never turns the job red, and the job skips cleanly in… |
 
 ---
 
@@ -725,3 +726,36 @@ matching update here; keeping the two in sync is a manual step, not an enforced 
 classification and internal renumbering are a snapshot as of this PR — prompt 49, which landed
 on `main` after this reorganization was first drafted, was included as `A-35` to keep the copy
 current at merge time, but no automated check keeps future additions in sync.
+
+---
+
+<a id="entry-add-prompt-a-37-advisory-home-lab-semantic-drift-review"></a>
+
+## Entry 18 — 2026-09-01 — Add Prompt A-37: advisory home-lab semantic-drift review
+
+*Kind: product. Status: accepted.*
+
+## Context
+
+Earlier stages give the compiler and CI deterministic, model-free checks against ontology drift
+(term reuse, compiled-artifact fingerprinting). Those checks catch structural drift but not prose
+that silently redefines or contradicts a canonical concept in documentation, guides, or generated
+docs — something only a model reading for meaning can flag.
+
+## Decision
+
+Added Prompt A-37 as an advisory-only review rather than a blocking check: it runs a model on the
+operator's own home-lab gateway (private network, not a third-party API), a finding never turns
+the job red, and the job skips cleanly in any built repository with no home lab configured. This
+is deliberately the weakest kind of dependency on a model this project takes on, and it inherits
+Prompt A-31's rule that text arriving from outside the repository is inert quoted data, not
+instructions. It does not attempt a deterministic term check over prose and says so, rather than
+presenting the advisory review as a control it is not.
+
+## Consequences
+
+This is the first stage in which the project's CI talks to a model at all. Built repositories
+without a home-lab gateway get no coverage from this stage, by design — it is additive advisory
+signal for operators who have one, not a required gate. The prompt can run any time after the
+compiled ontology is available and depends on the Keycloak, intake-submission, and engineer-
+workbench stages (Prompts A-19, A-23, and A-24) for the home-lab and intake context it reads.
